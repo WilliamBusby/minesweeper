@@ -9,25 +9,44 @@
   <link rel="stylesheet" href="./dist/style.css">
 </head>
 <body>
-  <!-- Landing page -->
-
-  <!-- Starting info containing:
+  <!-- Landing page
   - How to play
   - Select difficulty (easy/medium/hard/custom)
-  - Timed vs untimed -->
+  - Timed vs untimed 
+  - Start button -->
+  <section class ="landing_page" id="landing_page">
+    <div class="landing_page__text" id= "landing_page__how_to_play"></div>
+    <div class="landing_page__dropdown" id="landing_page__difficulty"></div>
+    <div class="landing_page__dropdown" id="landing_page__timer"></div>
+    <div class="landing_page__button" id="landing_page__start"></div>
+  </section>
 
-  <!-- Transitional page? --> 
+  <!-- Transitional page --> 
+  <section class="transition_page" id="transition_page"></section>
 
   <!-- Game page
   - Grid containing boxes
   - Timer (if used)
-  - Flags remaining 
-  - How to? -->
+  - Flags remaining -->
+
+  <section class="game_page" id="game_page">
+    <div class="game_page__text" id="game_page__timer_symbol"></div>
+    <div class="game_page__text" id="game_page__timer"></div>
+    <div class="game_page__text" id="game_page__flag_symbol"></div>
+    <div class="game_page__text" id="game_page__flags_remaining"></div>
+    <div class="game_page__grid" id="game_page__grid"></div>
+  </section>
 
   <!-- Game win/lose
   - Overlay and blur background
   - Timer on screen (win)
   - Flags remaining/wrong (lose)
   - Restart (go to home) -->
+
+  <section class="end_page" id="end_page">
+    <div class="end_page__text" id="end_page__timer"></div>
+    <div class="end_page__text" id="end_page__flags_remaining"></div>
+    <div class="end_page__button" id="end_page__restart"></div>
+  </section>
 </body>
 </html>
