@@ -1,0 +1,62 @@
+@use "./variables" as *;
+
+.end_page {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3,1fr);
+  grid-template-areas: 
+  "timer-symbol timer"
+  "flag-symbol flags-remaining"
+  "restart restart";
+  width: 20%;
+  height: 30%;
+  margin: 0 auto;
+  margin-top: 20vh;
+  align-items: center;
+  text-align: center;
+  column-gap: 40px;
+
+  &__left {
+    text-align: left;
+  }
+
+  &__right {
+    text-align: right;
+  }
+
+  &__text {
+    font-size: 3vw;
+  }
+
+  &__button {
+
+    button {
+      width: 60%;
+      height: 100%;
+    }
+  }
+
+}
+
+#end_page {
+  
+  &__timer_symbol {
+    grid-area: timer-symbol;
+  }
+
+  &__timer {
+    grid-area: timer;
+  }
+
+  &__flags_remaining {
+    grid-area: flags-remaining;
+  }
+
+  &__flag_symbol {
+    grid-area: flag-symbol;
+  }
+
+  &__restart {
+    grid-area: restart;
+  }
+}

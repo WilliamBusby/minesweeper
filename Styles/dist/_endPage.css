@@ -1,0 +1,42 @@
+.end_page {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: "timer-symbol timer" "flag-symbol flags-remaining" "restart restart";
+  width: 20%;
+  height: 30%;
+  margin: 0 auto;
+  margin-top: 20vh;
+  align-items: center;
+  text-align: center;
+  column-gap: 40px;
+}
+.end_page__left {
+  text-align: left;
+}
+.end_page__right {
+  text-align: right;
+}
+.end_page__text {
+  font-size: 3vw;
+}
+.end_page__button button {
+  width: 60%;
+  height: 100%;
+}
+
+#end_page__timer_symbol {
+  grid-area: timer-symbol;
+}
+#end_page__timer {
+  grid-area: timer;
+}
+#end_page__flags_remaining {
+  grid-area: flags-remaining;
+}
+#end_page__flag_symbol {
+  grid-area: flag-symbol;
+}
+#end_page__restart {
+  grid-area: restart;
+}
