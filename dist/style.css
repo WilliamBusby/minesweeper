@@ -85,17 +85,19 @@
 }
 .game_page__grid {
   margin: 0 auto;
-  background-color: white;
+  background-color: #DED4ED;
   height: 60vh;
   width: 60vh;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(10, 1fr);
-  border: 0.5vw solid white;
+  border: 0.5vw solid #DED4ED;
+  border-radius: 5px;
 }
 .game_page__grid__square {
-  background-color: aqua;
-  border: 0.25vw solid white;
+  background-color: #7C8682;
+  border: 0.25vw solid #DED4ED;
+  text-align: center;
 }
 .game_page__right {
   text-align: right;
