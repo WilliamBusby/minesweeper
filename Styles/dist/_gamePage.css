@@ -1,5 +1,5 @@
 .game_page {
-  display: grid;
+  display: none;
   grid-template-rows: 1fr 4fr;
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas: "timer-symbol timer . . flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box";
@@ -16,8 +16,13 @@
   height: 60vh;
   width: 60vh;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+  border: 0.5vw solid white;
+}
+.game_page__grid__square {
+  background-color: aqua;
+  border: 0.25vw solid white;
 }
 .game_page__right {
   text-align: right;
