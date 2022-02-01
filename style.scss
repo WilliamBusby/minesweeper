@@ -1,0 +1,23 @@
+@use "./Styles/variables" as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+
+@import "./Styles/variables";
+@import "./Styles/landingPage";
+@import "./Styles/gamePage";
+@import "./Styles/loadingPage";
+@import "./Styles/endPage";
+
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background-color: $background-color;
+  color: $font-color;
+  font-family: 'Fjalla One', sans-serif;
+  width: 100vw;
+  height: 100vh;
+}

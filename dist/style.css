@@ -1,0 +1,173 @@
+@import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
+.landing_page {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-areas: "head ." "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
+  width: 60%;
+  margin-left: 20%;
+  height: 60%;
+  margin-top: 10%;
+  text-align: left;
+  column-gap: 5vw;
+  align-items: center;
+}
+.landing_page h1 {
+  font-size: 4vw;
+}
+.landing_page h2 {
+  font-size: 3vw;
+}
+.landing_page h3 {
+  font-size: 2vw;
+}
+.landing_page p {
+  font-size: 1vw;
+  margin: 0 auto;
+}
+.landing_page li {
+  font-size: 1vw;
+  margin-top: 20px;
+}
+.landing_page__dropdown {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+.landing_page__dropdown__menu {
+  height: 2vw;
+}
+.landing_page__button {
+  width: 60%;
+  margin-left: 20%;
+  height: 100%;
+}
+.landing_page__button button {
+  width: 100%;
+  height: 40%;
+  margin-top: 10%;
+}
+
+#landing_page__dropdown__custom {
+  display: none;
+  margin-top: 10px;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  row-gap: 5px;
+}
+#landing_page__header {
+  grid-area: head;
+}
+#landing_page__difficulty {
+  grid-area: difficulty;
+}
+#landing_page__timer {
+  grid-area: timer;
+}
+#landing_page__start {
+  grid-area: startButton;
+}
+#landing_page__how_to_play {
+  grid-area: howToPlay;
+  align-self: start;
+}
+
+.game_page {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas: "timer-symbol timer . . flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box";
+  height: 80%;
+  margin-top: 5%;
+  width: 40%;
+  margin-left: 30%;
+  align-items: center;
+  column-gap: 1vw;
+}
+.game_page__grid {
+  margin: 0 auto;
+  background-color: white;
+  height: 60vh;
+  width: 60vh;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+}
+.game_page__right {
+  text-align: right;
+}
+.game_page__text {
+  font-size: 3vw;
+}
+
+#game_page__timer_symbol {
+  grid-area: timer-symbol;
+}
+#game_page__timer {
+  grid-area: timer;
+}
+#game_page__flag_symbol {
+  grid-area: flag-symbol;
+}
+#game_page__flags_remaining {
+  grid-area: flags-remaining;
+}
+#game_page__grid {
+  grid-area: grid-box;
+}
+
+.end_page {
+  display: none;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas: "timer-symbol timer" "flag-symbol flags-remaining" "restart restart";
+  width: 20%;
+  height: 30%;
+  margin: 0 auto;
+  margin-top: 20vh;
+  align-items: center;
+  text-align: center;
+  column-gap: 40px;
+}
+.end_page__left {
+  text-align: left;
+}
+.end_page__right {
+  text-align: right;
+}
+.end_page__text {
+  font-size: 3vw;
+}
+.end_page__button button {
+  width: 60%;
+  height: 100%;
+}
+
+#end_page__timer_symbol {
+  grid-area: timer-symbol;
+}
+#end_page__timer {
+  grid-area: timer;
+}
+#end_page__flags_remaining {
+  grid-area: flags-remaining;
+}
+#end_page__flag_symbol {
+  grid-area: flag-symbol;
+}
+#end_page__restart {
+  grid-area: restart;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  background-color: #3D3B3C;
+  color: #F3F7F4;
+  font-family: "Fjalla One", sans-serif;
+  width: 100vw;
+  height: 100vh;
+}

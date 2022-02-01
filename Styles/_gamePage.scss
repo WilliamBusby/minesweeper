@@ -1,0 +1,57 @@
+@use "./variables" as *;
+
+.game_page {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(6,1fr);
+  grid-template-areas: 
+  "timer-symbol timer . . flags-remaining flag-symbol"
+  "grid-box grid-box grid-box grid-box grid-box grid-box";
+  height: 80%;
+  margin-top: 5%;
+  width: 40%;
+  margin-left: 30%;
+  align-items: center;
+  column-gap: 1vw;
+
+  &__grid {
+    margin: 0 auto;
+    background-color: white;
+    height: 60vh;
+    width: 60vh;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(2,1fr);
+  }
+
+  &__right {
+    text-align: right;
+  }
+
+  &__text {
+    font-size: 3vw;
+  }
+}
+
+#game_page {
+
+  &__timer_symbol {
+    grid-area: timer-symbol;
+  }
+
+  &__timer {
+    grid-area: timer;
+  }
+
+  &__flag_symbol {
+    grid-area: flag-symbol;
+  }
+
+  &__flags_remaining {
+    grid-area: flags-remaining;
+  }
+
+  &__grid {
+    grid-area: grid-box;
+  }
+}
