@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minesweeper</title>
   <script src="app.js" async defer></script>
+  <script src="https://kit.fontawesome.com/5f0266d93a.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./dist/style.css">
 </head>
 <body>
@@ -69,9 +70,9 @@
   - Flags remaining -->
 
   <section class="game_page" id="game_page">
-    <div class="game_page__left game_page__text" id="game_page__timer_symbol">Timer</div>
+    <div class="game_page__right game_page__text" id="game_page__timer_symbol"><i class="far fa-hourglass"></i></div>
     <div class="game_page__left game_page__text" id="game_page__timer">0:00</div>
-    <div class="game_page__right game_page__text" id="game_page__flag_symbol">Flag</div>
+    <div class="game_page__left game_page__text" id="game_page__flag_symbol"><i class="fas fa-flag"></i></div>
     <div class="game_page__right game_page__text" id="game_page__flags_remaining">75</div>
     <div class="game_page__grid" id="game_page__grid"></div>
   </section>
@@ -83,8 +84,10 @@
   - Restart (go to home) -->
 
   <section class="end_page" id="end_page">
+    <div class="end_page__text" id="end_page__timer_symbol">01:25<i class="far fa-hourglass"></i></div>
     <div class="end_page__text" id="end_page__timer"></div>
-    <div class="end_page__text" id="end_page__flags_remaining"></div>
+    <div class="end_page__text" id="end_page__flags_remaining">0</div>
+    <div class="end_page__text" id="end__flag_symbol"><i class="fas fa-flag"></i></div>
     <div class="end_page__button" id="end_page__restart"></div>
   </section>
 </body>
