@@ -9,7 +9,7 @@ export default class Game {
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
     this.drawBoardOnScreen(rows, columns);
-    this.addClickListener();
+    this.addClickListener(gameboard);
     this.checkMines(this._gameboard,this._mines);
   }
 
@@ -43,12 +43,16 @@ export default class Game {
     return mines;
   }
 
-  addClickListener() {
+  addClickListener(gameboard) {
     gameboard.addEventListener("click", (event) => {
       const coords = event.target.id.split("_");
       const numberCoords = coords.map(number => Number(number));
       if(this._gameboard[numberCoords[0]][numberCoords[1]].hasMine) {
-        console.log("true");
+        event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
+        event.target.style.backgroundColor = "#3D3B3C";
+        event.target.style.fontSize = `${event.target.offsetWidth/1.5}px`;
+      } else {
+        event.target.style.backgroundColor = "#3D3B3C";
       }
     })
   }

@@ -16,17 +16,19 @@
 
   &__grid {
     margin: 0 auto;
-    background-color: white;
+    background-color: $grid-outline-color;
     height: 60vh;
     width: 60vh;
     display: grid;
     grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(10,1fr);
-    border: 0.5vw solid white;
+    border: 0.5vw solid $grid-outline-color;
+    border-radius: 5px;
 
     &__square {
-      background-color: aqua;
-      border: 0.25vw solid white;
+      background-color: $grid-square-colour;
+      border: 0.25vw solid $grid-outline-color;
+      text-align: center;
     }
   }
 
