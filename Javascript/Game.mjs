@@ -16,7 +16,7 @@ export default class Game {
   drawBoardOnScreen(rows,cols) {
     for(let i = 0; i < cols; i++) {
       for(let j = 0; j < rows; j++) {
-        gameboard.innerHTML += `\n<div class="game_page__grid__square" id="game_page_${String(i)}_${String(j)}"></div>`
+        gameboard.innerHTML += `\n<div class="game_page__grid__square" id="${String(j)}_${String(i)}"></div>`
       }
     }
   }
@@ -44,8 +44,13 @@ export default class Game {
   }
 
   addClickListener() {
-    gameboard.addEventListener("click", (event) =>
-    event.target.style.backgroundColor = "red")
+    gameboard.addEventListener("click", (event) => {
+      const coords = event.target.id.split("_");
+      const numberCoords = coords.map(number => Number(number));
+      if(this._gameboard[numberCoords[0]][numberCoords[1]].hasMine) {
+        console.log("true");
+      }
+    })
   }
 
   checkMines(gameboard,mines) {
