@@ -4,8 +4,7 @@ import Squares from "./Board.mjs";
 import Mines from "./Mines.mjs";
 
 export default class Game {
-  constructor(difficulty, rows, columns, numberOfMines, useTimer) {
-    this._difficulty = difficulty,
+  constructor(rows, columns, numberOfMines, useTimer) {
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
