@@ -18,7 +18,7 @@
     <div class="landing_page__text" id="landing_page__header"><h1>MINESWEEPER</h1></div>
     <div class="landing_page__dropdown" id="landing_page__difficulty">
       <label for="difficulty"><h3>Select difficulty:</h3></label>
-      <select name="difficulty" class="landing_page__dropdown__menu" id="landing_page__difficulty__select" title="Difficulty" onchange="changedDifficultyCustomCheck()">
+      <select name="difficulty" class="landing_page__dropdown__menu" id="landing_page__difficulty__select" title="Difficulty">
         <option value="easy">Easy</option>
         <option value="medium">Medium</option>
         <option value="hard">Hard</option>
@@ -69,10 +69,10 @@
   - Flags remaining -->
 
   <section class="game_page" id="game_page">
-    <div class="game_page__text" id="game_page__timer_symbol"></div>
-    <div class="game_page__text" id="game_page__timer"></div>
-    <div class="game_page__text" id="game_page__flag_symbol"></div>
-    <div class="game_page__text" id="game_page__flags_remaining"></div>
+    <div class="game_page__left game_page__text" id="game_page__timer_symbol">Timer</div>
+    <div class="game_page__left game_page__text" id="game_page__timer">0:00</div>
+    <div class="game_page__right game_page__text" id="game_page__flag_symbol">Flag</div>
+    <div class="game_page__right game_page__text" id="game_page__flags_remaining">75</div>
     <div class="game_page__grid" id="game_page__grid"></div>
   </section>
 
