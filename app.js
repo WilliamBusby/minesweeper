@@ -4,6 +4,7 @@ import Game from "./Javascript/Game.mjs";
 import Squares from "./Javascript/Board.mjs";
 
 const difficultyOption = document.getElementById("landing_page__difficulty__select");
+const useTimer = document.getElementById("landing_page__timer__select");
 const customDifficultyNumberInputs = document.getElementById("landing_page__dropdown__custom");
 const startButton = document.getElementById("landing_page__start__button");
 const landingPage = document.getElementById("landing_page");

@@ -1,3 +1,4 @@
+
 export default class Mines {
   constructor(xMax, yMax, numberOfMines) {
     this._mineLocations = this.generateMines(xMax,yMax,numberOfMines);

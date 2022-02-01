@@ -9,6 +9,7 @@ var _Board = _interopRequireDefault(require("./Javascript/Board.mjs"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var difficultyOption = document.getElementById("landing_page__difficulty__select");
+var useTimer = document.getElementById("landing_page__timer__select");
 var customDifficultyNumberInputs = document.getElementById("landing_page__dropdown__custom");
 var startButton = document.getElementById("landing_page__start__button");
 var landingPage = document.getElementById("landing_page");

@@ -1,3 +1,4 @@
+
 export default class Squares {
   constructor(xPos, yPos) {
     this._coords = [xPos, yPos],

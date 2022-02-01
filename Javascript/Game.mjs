@@ -6,12 +6,12 @@ import Mines from "./Mines.mjs";
 export default class Game {
   constructor(difficulty, rows, columns, numberOfMines, useTimer) {
     this._difficulty = difficulty,
-    this._mines = new Mines(rows,columns,numberOfMines);
+    this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
     this.drawBoardOnScreen(rows, columns);
     this.addClickListener();
-    this.checkMines(this._gameboard,this._mines.mineLocations);
+    this.checkMines(this._gameboard,this._mines);
   }
 
   drawBoardOnScreen(rows,cols) {
@@ -54,7 +54,6 @@ export default class Game {
       const xPos = mines[i][0];
       const yPos = mines[i][1];
       gameboard[xPos][yPos].hasMine = true;
-      console.log(gameboard[xPos][yPos])
     }
   }
 }
