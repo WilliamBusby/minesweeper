@@ -20,8 +20,14 @@
     height: 60vh;
     width: 60vh;
     display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(2,1fr);
+    grid-template-columns: repeat(10,1fr);
+    grid-template-rows: repeat(10,1fr);
+    border: 0.5vw solid white;
+
+    &__square {
+      background-color: aqua;
+      border: 0.25vw solid white;
+    }
   }
 
   &__right {
