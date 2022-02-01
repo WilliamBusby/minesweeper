@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap");
 .landing_page {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
   grid-template-areas: "head ." "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
@@ -69,6 +69,49 @@
 #landing_page__how_to_play {
   grid-area: howToPlay;
   align-self: start;
+}
+
+.game_page {
+  display: grid;
+  grid-template-rows: 1fr 4fr;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas: "timer-symbol timer . . flags-remaining flag-symbol" ". grid-box grid-box grid-box grid-box .";
+  height: 80%;
+  margin-top: 5%;
+  width: 60%;
+  margin-left: 20%;
+  align-items: center;
+}
+.game_page__grid {
+  margin: 0 auto;
+  background-color: white;
+  height: 60vh;
+  width: 60vh;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+}
+.game_page__right {
+  text-align: right;
+}
+.game_page__text {
+  font-size: 3vw;
+}
+
+#game_page__timer_symbol {
+  grid-area: timer-symbol;
+}
+#game_page__timer {
+  grid-area: timer;
+}
+#game_page__flag_symbol {
+  grid-area: flag-symbol;
+}
+#game_page__flags_remaining {
+  grid-area: flags-remaining;
+}
+#game_page__grid {
+  grid-area: grid-box;
 }
 
 * {

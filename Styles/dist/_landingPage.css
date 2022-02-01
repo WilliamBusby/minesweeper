@@ -1,5 +1,5 @@
 .landing_page {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, 1fr);
   grid-template-areas: "head ." "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
