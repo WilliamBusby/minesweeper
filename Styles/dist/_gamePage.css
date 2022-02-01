@@ -1,5 +1,5 @@
 .game_page {
-  display: none;
+  display: grid;
   grid-template-rows: 1fr 4fr;
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas: "timer-symbol timer . . flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box";
