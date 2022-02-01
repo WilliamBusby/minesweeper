@@ -11,7 +11,7 @@ export default class Mines {
       const coords = [xPos, yPos];
       mines.add(coords);
     }
-    return mines;
+    return [...mines];
   }
 
   get mineLocations() {

@@ -1,7 +1,7 @@
 @use "./variables" as *;
 
 .game_page {
-  display: grid;
+  display: none;
   grid-template-rows: 1fr 4fr;
   grid-template-columns: repeat(6,1fr);
   grid-template-areas: 
