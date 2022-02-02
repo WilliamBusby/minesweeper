@@ -36,17 +36,17 @@ endPageRestart.addEventListener("click", (event) => {
 const difficultyChecker = (value) => {
   let rows, cols, mines;
   if(value === "easy") {
-    rows = 6;
-    cols = 6;
+    rows = 8;
+    cols = 8;
     mines = 6;
   } else if(value === "medium") {
-    rows = 12;
-    cols = 12;
-    mines = 25;
+    rows = 18;
+    cols = 18;
+    mines = 40;
   } else if(value === "hard") {
     rows = 24;
     cols = 24;
-    mines = 100;
+    mines = 99;
   } else if(value === "custom") {
     rows = customDifficultyNumbers[0].value;
     cols = customDifficultyNumbers[1].value;

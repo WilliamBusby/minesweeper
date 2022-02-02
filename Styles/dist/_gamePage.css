@@ -25,6 +25,8 @@
   background-color: #7C8682;
   border: 0.25vw solid #DED4ED;
   text-align: center;
+  margin: auto;
+  height: 100%;
 }
 .game_page__right {
   text-align: right;
