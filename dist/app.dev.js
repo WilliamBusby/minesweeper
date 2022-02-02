@@ -25,6 +25,7 @@ var landingPage = document.getElementById("landing_page");
 var gamePage = document.getElementById("game_page");
 var endPage = document.getElementById("end_page");
 var gameGrid = document.getElementById("game_page__grid");
+var endPageRestart = document.getElementById("end_page__restart");
 difficultyOption.addEventListener("change", function (event) {
   event.preventDefault();
 
@@ -46,6 +47,10 @@ startButton.addEventListener("click", function (event) {
   var userTimer = useTimer.value === "Timer" ? true : false;
   var gameTest = new _Game["default"](rows, cols, mines, userTimer);
   landingToGameStyle(cols, rows);
+});
+endPageRestart.addEventListener("click", function (event) {
+  event.preventDefault();
+  endToLandingStyle();
 });
 
 var difficultyChecker = function difficultyChecker(value) {
@@ -77,4 +82,9 @@ var landingToGameStyle = function landingToGameStyle(cols, rows) {
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
   landingPage.style.display = "none";
   gamePage.style.display = "grid";
+};
+
+var endToLandingStyle = function endToLandingStyle() {
+  landingPage.style.display = "grid";
+  endPage.style.display = "none";
 };

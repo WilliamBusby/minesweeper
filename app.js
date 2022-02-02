@@ -12,6 +12,7 @@ const landingPage = document.getElementById("landing_page");
 const gamePage = document.getElementById("game_page");
 const endPage = document.getElementById("end_page");
 const gameGrid = document.getElementById("game_page__grid");
+const endPageRestart = document.getElementById("end_page__restart");
 
 difficultyOption.addEventListener("change", (event) => {
   event.preventDefault();
@@ -28,6 +29,11 @@ startButton.addEventListener("click", (event) => {
   const userTimer = (useTimer.value === "Timer") ? true : false;
   const gameTest = new Game(rows, cols, mines, userTimer);
   landingToGameStyle(cols,rows);
+})
+
+endPageRestart.addEventListener("click", (event) => {
+  event.preventDefault();
+  endToLandingStyle();
 })
 
 const difficultyChecker = (value) => {
@@ -57,4 +63,9 @@ const landingToGameStyle = (cols,rows) => {
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
   landingPage.style.display = "none";
   gamePage.style.display = "grid";
+}
+
+const endToLandingStyle = () => {
+  landingPage.style.display = "grid";
+  endPage.style.display = "none";
 }
