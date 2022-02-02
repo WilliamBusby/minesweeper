@@ -1,5 +1,6 @@
 const gameboard = document.getElementById("game_page__grid");
 const flagsRemaining = document.getElementById("game_page__flags_remaining");
+
 import Squares from "./Board.mjs";
 import Mines from "./Mines.mjs";
 
@@ -10,11 +11,12 @@ export default class Game {
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
     this.drawBoardOnScreen(rows, columns);
-    this.addLeftClickListener(gameboard);
-    this.addRightClickListener(gameboard);
-    this.addMiddleClickListener(gameboard);
+    this.addLeftClickListener(gameboard,this._gameboard);
+    this.addRightClickListener(gameboard,this._gameboard);
+    this.addMiddleClickListener(gameboard,this._gameboard);
     this.checkMines(this._gameboard,this._mines);
     flagsRemaining.innerHTML = this._minesLeft;
+    this.getObjectFromGameboard(this._gameboard,"0_0");
   }
 
   drawBoardOnScreen(rows,cols) {
@@ -36,24 +38,12 @@ export default class Game {
     return gameboardArray;
   }
 
-  generateMines(xMax, yMax, numberOfMines) {
-    const mines = new Set();
-    while(mines.size < numberOfMines) {
-      const xPos = Math.floor(Math.random() * xMax);
-      const yPos = Math.floor(Math.random() * yMax);
-      const coords = [xPos, yPos];
-      mines.add(coords);
-    }
-    return mines;
-  }
-
-  addLeftClickListener(gameboard) {
+  addLeftClickListener(gameboard,generatedGameboard) {
     gameboard.addEventListener("click", (event) => {
-      const coords = event.target.id.split("_");
-      const numberCoords = coords.map(number => Number(number));
+      const clickedSquare = this.getObjectFromGameboard(generatedGameboard, event.target.id);
       event.target.style.backgroundColor = "#3D3B3C";
       event.target.style.fontSize = `${event.target.offsetWidth/1.5}px`;
-      if(this._gameboard[numberCoords[0]][numberCoords[1]].hasMine) {
+      if(clickedSquare.hasMine) {
         event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
       } else {
         event.target.innerHTML = "";
@@ -61,27 +51,46 @@ export default class Game {
     })
   }
 
-  addMiddleClickListener(gameboard) {
+  addMiddleClickListener(gameboard,generatedGameboard) {
     gameboard.addEventListener("auxclick", (event) => {
       event.preventDefault();
+      const clickedSquare = this.getObjectFromGameboard(generatedGameboard, event.target.id);
       switch(event.button) {
         case 1: 
           alert("middle")
           break;
         default:
-          alert("not middle")
+          break;
       }
     })
   }
 
-  addRightClickListener(gameboard) {
+  addRightClickListener(gameboard,generatedGameboard) {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
-      if(this._minesLeft > 0) {
-        event.target.innerHTML = `<i class="fas fa-flag"></i>`;
-        event.target.style.fontSize = `${event.target.offsetWidth/1.5}px`;
+      let clickedSquare, click;
+      if(event.target.nodeName == "DIV") {
+        clickedSquare = this.getObjectFromGameboard(generatedGameboard, event.target.id);
+        click = event.target;
+      } else if(event.target.nodeName == "path") {
+        clickedSquare = this.getObjectFromGameboard(generatedGameboard, event.target.parentElement.parentElement.id);
+        click = event.target.parentElement.parentElement;
+      } else if(event.target.nodeName == "svg") {
+        clickedSquare = this.getObjectFromGameboard(generatedGameboard, event.target.parentElement.id);
+        click = event.target.parentElement;
+      }
+
+      if(this._minesLeft > 0 && !clickedSquare.isFlagged) {
+        click.innerHTML = `<i class="fas fa-flag"></i>`;
+        click.style.fontSize = `${event.target.offsetWidth/1.5}px`;
         this._minesLeft--;
         flagsRemaining.innerHTML = this._minesLeft;
+        clickedSquare.isFlagged = true;
+      } else if(clickedSquare.isFlagged) {
+        click.innerHTML = ``;
+        this._minesLeft++;
+        flagsRemaining.innerHTML = this._minesLeft;
+        clickedSquare.isFlagged = false;
       } else {
         alert("You've run out of flags to place!");
       }
@@ -90,11 +99,16 @@ export default class Game {
   }
 
   checkMines(gameboard,mines) {
-    console.log(mines);
     for(let i = 0; i< mines.length; i++) {
       const xPos = mines[i][0];
       const yPos = mines[i][1];
       gameboard[xPos][yPos].hasMine = true;
     }
+  }
+
+  getObjectFromGameboard(gameboard,targetId) {
+    const coords = targetId.split("_");
+    const numberCoords = coords.map(number => Number(number));
+    return gameboard[numberCoords[0]][numberCoords[1]];
   }
 }

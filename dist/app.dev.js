@@ -1,10 +1,6 @@
 "use strict";
 
-var _Mines = _interopRequireDefault(require("./Javascript/Mines.mjs"));
-
 var _Game = _interopRequireDefault(require("./Javascript/Game.mjs"));
-
-var _Board = _interopRequireDefault(require("./Javascript/Board.mjs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

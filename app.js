@@ -1,7 +1,4 @@
-
-import Mines from "./Javascript/Mines.mjs";
 import Game from "./Javascript/Game.mjs";
-import Squares from "./Javascript/Board.mjs";
 
 const difficultyOption = document.getElementById("landing_page__difficulty__select");
 const useTimer = document.getElementById("landing_page__timer__select");

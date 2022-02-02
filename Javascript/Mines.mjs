@@ -5,14 +5,20 @@ export default class Mines {
   }
 
   generateMines(xMax, yMax, numberOfMines) {
-    const mines = new Set();
-    while(mines.size < numberOfMines) {
+    let minesObject = {};
+    while(Object.keys(minesObject).length < numberOfMines) {
       const xPos = Math.floor(Math.random() * xMax);
       const yPos = Math.floor(Math.random() * yMax);
       const coords = [xPos, yPos];
-      mines.add(coords);
+      minesObject[coords] = undefined;
     }
-    return [...mines];
+    const mines = Object.keys(minesObject); 
+    const newMines = [];
+    for(let i = 0; i < mines.length; i++) {
+      const splitVal = mines[i].split(",");
+      newMines.push([Number(splitVal[0]), Number(splitVal[1])]);
+    }
+    return newMines;
   }
 
   get mineLocations() {
