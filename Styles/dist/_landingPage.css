@@ -4,7 +4,7 @@
   grid-template-rows: repeat(4, 1fr);
   grid-template-areas: "head ." "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
   width: 60%;
-  margin-left: 20%;
+  margin: 0 auto;
   height: 60%;
   margin-top: 10%;
   text-align: left;

@@ -8,9 +8,9 @@
   "timer-symbol timer . . flags-remaining flag-symbol"
   "grid-box grid-box grid-box grid-box grid-box grid-box";
   height: 80%;
-  margin-top: 5%;
   width: 40%;
-  margin-left: 30%;
+  margin: 0 auto;
+  margin-top: 5%;
   align-items: center;
   column-gap: 1vw;
 
@@ -22,7 +22,7 @@
     display: grid;
     grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(10,1fr);
-    border: 0.5vw solid $grid-outline-color;
+    border: 0.6vw solid $grid-outline-color;
     border-radius: 5px;
 
     &__square {
