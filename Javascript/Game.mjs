@@ -22,7 +22,7 @@ export default class Game {
     this.drawBoardOnScreen(rows, columns);
     this.addLeftClickListener(gameboard,this._gameboard,rows,columns);
     this.addRightClickListener(gameboard,this._gameboard);
-    this.addMiddleClickListener(gameboard,this._gameboard);
+    this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
     this.checkMines(this._gameboard,this._mines);
     flagsRemaining.innerHTML = this._flagsLeft;
     this.getObjectFromGameboard(this._gameboard,"0_0");
@@ -75,13 +75,17 @@ export default class Game {
     })
   }
 
-  addMiddleClickListener(gameboard,generatedGameboard) {
+  addMiddleClickListener(gameboard,generatedGameboard,rows,cols) {
     gameboard.addEventListener("auxclick", (event) => {
       event.preventDefault();
       let clickedSquare,click;
       [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(event.button === 1) {
-        alert("middle");
+        let flagsAround = this.calculateFlagsSurrounding(generatedGameboard,clickedSquare,rows,cols)
+        if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
+          this.clickSurrounding(clickedSquare, rows, cols);
+          console.log("Yes");
+        }
       }
     })
   }
@@ -196,6 +200,33 @@ export default class Game {
     }
   }
 
+  calculateFlagsSurrounding(generatedGameboard, targetSquare, xMax, yMax) {
+    let flagsSurrounding = 0;
+    const squareCoords = targetSquare.coords;
+    const x = squareCoords[0];
+    const y = squareCoords[1];
+    const surroundingCoords = [
+      [x,y+1],
+      [x,y-1],
+      [x+1,y],
+      [x-1,y],
+      [x-1,y-1],
+      [x-1,y+1],
+      [x+1,y-1],
+      [x+1,y+1]
+    ];
+
+    for(let i = 0; i<surroundingCoords.length;i++) {
+      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
+      
+      if(!checkBounds) {
+        if(generatedGameboard[surroundingCoords[i][0]][surroundingCoords[i][1]].isFlagged) flagsSurrounding++;
+      } 
+    }
+
+    return flagsSurrounding;
+  }
+
   checkGameWin(generatedGameboard) {
     let gameWin = true;
     for(let i = 0; i< this._mines.length; i++) {
@@ -208,15 +239,6 @@ export default class Game {
       }
     }
     return gameWin;
-  }
-
-  pad(value) {
-    let valString = value + "";
-    if (valString.length < 2) {
-      return "0" + valString;
-    } else {
-      return valString;
-    }
   }
 
   gameToEndStyle() {
