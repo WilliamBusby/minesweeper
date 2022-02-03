@@ -1,8 +1,8 @@
 .game_page {
   display: none;
   grid-template-rows: 1fr 4fr;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-areas: "timer-symbol timer winLose winLose flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box";
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-areas: "timer-symbol timer timer winLose winLose flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box grid-box";
   height: 80%;
   width: 40%;
   margin: 0 auto;
@@ -33,6 +33,9 @@
 }
 .game_page__text {
   font-size: 3vw;
+}
+.game_page__center {
+  text-align: center;
 }
 
 #game_page__timer_symbol {

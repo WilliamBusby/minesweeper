@@ -3,6 +3,12 @@ const flagsRemaining = document.getElementById("game_page__flags_remaining");
 const endPage = document.getElementById("end_page");
 const gamePage = document.getElementById("game_page");
 const winLoseText = document.getElementById("game_page__winLose");
+const minutesTag = document.getElementById("minutes");
+const secondsTag = document.getElementById("seconds");
+const endPageFlagsLeft = document.getElementById("end_page__flags_remaining");
+
+const endPageTimer = document.getElementById("end_page__timer");
+let totalSeconds = 0;
 
 import Squares from "./Board.mjs";
 import Mines from "./Mines.mjs";
@@ -20,6 +26,7 @@ export default class Game {
     this.checkMines(this._gameboard,this._mines);
     flagsRemaining.innerHTML = this._flagsLeft;
     this.getObjectFromGameboard(this._gameboard,"0_0");
+    this.timer = setInterval(this.addToTimer,1000);
   }
 
   drawBoardOnScreen(rows,cols) {
@@ -48,12 +55,14 @@ export default class Game {
       if(!clickedSquare.isFlagged) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-
         clickedSquare.numberOfMinesSurrounding = this.calculateMinesSurrounding(generatedGameboard, clickedSquare, rows, columns)
         if(clickedSquare.hasMine) {
           event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
           clickedSquare.isShowing = true;
-          this.gameEnd();
+          winLoseText.innerHTML = "You lose!";
+          endPageFlagsLeft.innerHTML = this._flagsLeft;
+          setTimeout(this.gameToEndStyle,3000);
+          clearInterval(this.timer);
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
           event.target.innerHTML = "";
           this.clickSurrounding(clickedSquare, rows, columns);
@@ -90,8 +99,10 @@ export default class Game {
         clickedSquare.isFlagged = true;
         let gameWin = this.checkGameWin(generatedGameboard);
         if(gameWin) {
-          alert("You win");
+          winLoseText.innerHTML = "You win!";
+          endPageFlagsLeft.innerHTML = this._flagsLeft;
           setTimeout(this.gameToEndStyle,1000);
+          clearInterval(this.timer);
         }
       } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
         click.innerHTML = ``;
@@ -103,7 +114,6 @@ export default class Game {
       } else {
         alert("You've run out of flags to place!");
       }
-
     })
   }
 
@@ -180,14 +190,10 @@ export default class Game {
     for(let i = 0; i<surroundingCoords.length;i++) {
       const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
       
-      if(!checkBounds & !targetSquare.isShowing) {
+      if(!checkBounds && !targetSquare.isShowing) {
         document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
       } 
     }
-  }
-
-  gameEnd = async () => {
-    setTimeout(this.gameToEndStyle,3000);
   }
 
   checkGameWin(generatedGameboard) {
@@ -204,9 +210,42 @@ export default class Game {
     return gameWin;
   }
 
+  pad(value) {
+    let valString = value + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
+
   gameToEndStyle() {
     gamePage.style.display = "none";
     endPage.style.display = "grid";
     gameboard.innerHTML = "";
+    winLoseText.innerHTML = "";
+    let minutes = Math.floor(totalSeconds/60).toString();
+    let seconds = (totalSeconds%60).toString();
+    if(minutes.length < 2) {
+      minutes = "0" + minutes;
+    }
+    if(seconds.length < 2) {
+      seconds = "0" + seconds;
+    }
+    endPageTimer.innerHTML =  `${minutes}:${seconds}`;
+  }
+
+  addToTimer() {
+    ++totalSeconds;
+    let minutes = Math.floor(totalSeconds / 60).toString();
+    let seconds = (totalSeconds%60).toString();
+    if(minutes.length < 2) {
+      minutes = "0" + minutes;
+    }
+    if(seconds.length < 2) {
+      seconds = "0" + seconds;
+    }
+    secondsTag.innerHTML = (seconds.toString());
+    minutesTag.innerHTML = (minutes.toString());
   }
 }

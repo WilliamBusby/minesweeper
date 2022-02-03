@@ -38,7 +38,7 @@ startButton.addEventListener("click", function (event) {
 });
 endPageRestart.addEventListener("click", function (event) {
   event.preventDefault();
-  endToLandingStyle();
+  location.reload();
 });
 
 var difficultyChecker = function difficultyChecker(value) {
@@ -65,6 +65,8 @@ var difficultyChecker = function difficultyChecker(value) {
   return [rows, cols, mines];
 };
 
+var gameTest;
+
 var transitionToGameStyle = function transitionToGameStyle() {
   var _difficultyChecker = difficultyChecker(difficultyOption.value),
       _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
@@ -77,13 +79,15 @@ var transitionToGameStyle = function transitionToGameStyle() {
   transitionPage.style.display = "none";
   gamePage.style.display = "grid";
   var userTimer = useTimer.value === "Timer" ? true : false;
-  var gameTest = new _Game["default"](rows, cols, mines, userTimer);
-};
+  gameTest = new _Game["default"](rows, cols, mines, userTimer);
+  console.log(gameTest);
+}; // const endToLandingStyle = () => {
+//   landingPage.style.display = "grid";
+//   endPage.style.display = "none";
+//   gameTest = new Game(2,2,1,true);
+//   console.log(gameTest);
+// }
 
-var endToLandingStyle = function endToLandingStyle() {
-  landingPage.style.display = "grid";
-  endPage.style.display = "none";
-};
 
 var landingToTransitionStyle = function landingToTransitionStyle() {
   return regeneratorRuntime.async(function landingToTransitionStyle$(_context) {
