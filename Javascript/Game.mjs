@@ -1,5 +1,7 @@
 const gameboard = document.getElementById("game_page__grid");
 const flagsRemaining = document.getElementById("game_page__flags_remaining");
+const endPage = document.getElementById("end_page");
+const gamePage = document.getElementById("game_page");
 
 import Squares from "./Board.mjs";
 import Mines from "./Mines.mjs";
@@ -7,7 +9,7 @@ import Mines from "./Mines.mjs";
 export default class Game {
   constructor(rows, columns, numberOfMines, useTimer) {
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
-    this._minesLeft = numberOfMines;
+    this._flagsLeft = numberOfMines;
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
     this.drawBoardOnScreen(rows, columns);
@@ -15,7 +17,7 @@ export default class Game {
     this.addRightClickListener(gameboard,this._gameboard);
     this.addMiddleClickListener(gameboard,this._gameboard);
     this.checkMines(this._gameboard,this._mines);
-    flagsRemaining.innerHTML = this._minesLeft;
+    flagsRemaining.innerHTML = this._flagsLeft;
     this.getObjectFromGameboard(this._gameboard,"0_0");
   }
 
@@ -50,9 +52,10 @@ export default class Game {
         if(clickedSquare.hasMine) {
           event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
           clickedSquare.isShowing = true;
+          this.gameEnd();
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
           event.target.innerHTML = "";
-          this.clickSurrounding(generatedGameboard, clickedSquare, rows, columns);
+          this.clickSurrounding(clickedSquare, rows, columns);
           clickedSquare.isShowing = true;
         } else {
           event.target.innerHTML = clickedSquare.numberOfMinesSurrounding;
@@ -73,21 +76,26 @@ export default class Game {
     })
   }
 
-  addRightClickListener(gameboard,generatedGameboard) {
+  addRightClickListener = async (gameboard,generatedGameboard) => {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
       let clickedSquare, click;
       [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(this._minesLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
+      if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
         click.innerHTML = `<i class="fas fa-flag"></i>`;
         click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-        this._minesLeft--;
-        flagsRemaining.innerHTML = this._minesLeft;
+        this._flagsLeft--;
+        flagsRemaining.innerHTML = this._flagsLeft;
         clickedSquare.isFlagged = true;
+        let gameWin = this.checkGameWin(generatedGameboard);
+        if(gameWin) {
+          alert("You win");
+          setTimeout(this.gameToEndStyle,1000);
+        }
       } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
         click.innerHTML = ``;
-        this._minesLeft++;
-        flagsRemaining.innerHTML = this._minesLeft;
+        this._flagsLeft++;
+        flagsRemaining.innerHTML = this._flagsLeft;
         clickedSquare.isFlagged = false;
       } else if(clickedSquare.isShowing) {
         alert("You can't flag a square that is already showing!")
@@ -153,11 +161,10 @@ export default class Game {
     return [clickedValue, click]
   }
 
-  clickSurrounding(generatedGameboard, targetSquare, xMax, yMax) {
+  clickSurrounding(targetSquare, xMax, yMax) {
     const squareCoords = targetSquare.coords;
     const x = squareCoords[0];
     const y = squareCoords[1];
-    console.log(targetSquare);
     const surroundingCoords = [
       [x,y+1],
       [x,y-1],
@@ -178,11 +185,27 @@ export default class Game {
     }
   }
 
-  gameEnd() {
-
+  gameEnd = async () => {
+    setTimeout(this.gameToEndStyle,3000);
   }
 
-  checkGameWin() {
+  checkGameWin(generatedGameboard) {
+    let gameWin = true;
+    for(let i = 0; i< this._mines.length; i++) {
+      const xMineLocation = this._mines[i][0];
+      const yMineLocation = this._mines[i][1];
+      const gameboardMineObject = generatedGameboard[xMineLocation][yMineLocation];
 
+      if(!gameboardMineObject.isFlagged) {
+        gameWin = false;
+      }
+    }
+    return gameWin;
+  }
+
+  gameToEndStyle() {
+    gamePage.style.display = "none";
+    endPage.style.display = "grid";
+    gameboard.innerHTML = "";
   }
 }

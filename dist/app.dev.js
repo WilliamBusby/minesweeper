@@ -22,6 +22,7 @@ var gamePage = document.getElementById("game_page");
 var endPage = document.getElementById("end_page");
 var gameGrid = document.getElementById("game_page__grid");
 var endPageRestart = document.getElementById("end_page__restart");
+var transitionPage = document.getElementById("transition_page");
 difficultyOption.addEventListener("change", function (event) {
   event.preventDefault();
 
@@ -33,16 +34,7 @@ difficultyOption.addEventListener("change", function (event) {
 });
 startButton.addEventListener("click", function (event) {
   event.preventDefault();
-
-  var _difficultyChecker = difficultyChecker(difficultyOption.value),
-      _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
-      rows = _difficultyChecker2[0],
-      cols = _difficultyChecker2[1],
-      mines = _difficultyChecker2[2];
-
-  var userTimer = useTimer.value === "Timer" ? true : false;
-  var gameTest = new _Game["default"](rows, cols, mines, userTimer);
-  landingToGameStyle(cols, rows);
+  landingToTransitionStyle();
 });
 endPageRestart.addEventListener("click", function (event) {
   event.preventDefault();
@@ -73,14 +65,40 @@ var difficultyChecker = function difficultyChecker(value) {
   return [rows, cols, mines];
 };
 
-var landingToGameStyle = function landingToGameStyle(cols, rows) {
+var transitionToGameStyle = function transitionToGameStyle() {
+  var _difficultyChecker = difficultyChecker(difficultyOption.value),
+      _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
+      rows = _difficultyChecker2[0],
+      cols = _difficultyChecker2[1],
+      mines = _difficultyChecker2[2];
+
   gameGrid.style.gridTemplateColumns = "repeat(".concat(cols, ",1fr)");
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
-  landingPage.style.display = "none";
+  transitionPage.style.display = "none";
   gamePage.style.display = "grid";
+  var userTimer = useTimer.value === "Timer" ? true : false;
+  var gameTest = new _Game["default"](rows, cols, mines, userTimer);
 };
 
 var endToLandingStyle = function endToLandingStyle() {
   landingPage.style.display = "grid";
   endPage.style.display = "none";
+};
+
+var landingToTransitionStyle = function landingToTransitionStyle() {
+  return regeneratorRuntime.async(function landingToTransitionStyle$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          landingPage.style.display = "none";
+          transitionPage.style.display = "grid";
+          _context.next = 4;
+          return regeneratorRuntime.awrap(setTimeout(transitionToGameStyle, 2000));
+
+        case 4:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
 };

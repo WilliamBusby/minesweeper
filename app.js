@@ -10,6 +10,7 @@ const gamePage = document.getElementById("game_page");
 const endPage = document.getElementById("end_page");
 const gameGrid = document.getElementById("game_page__grid");
 const endPageRestart = document.getElementById("end_page__restart");
+const transitionPage = document.getElementById("transition_page");
 
 difficultyOption.addEventListener("change", (event) => {
   event.preventDefault();
@@ -22,10 +23,7 @@ difficultyOption.addEventListener("change", (event) => {
 
 startButton.addEventListener("click", (event) => {
   event.preventDefault();
-  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
-  const userTimer = (useTimer.value === "Timer") ? true : false;
-  const gameTest = new Game(rows, cols, mines, userTimer);
-  landingToGameStyle(cols,rows);
+  landingToTransitionStyle();
 })
 
 endPageRestart.addEventListener("click", (event) => {
@@ -55,14 +53,24 @@ const difficultyChecker = (value) => {
   return [rows,cols,mines];
 }
 
-const landingToGameStyle = (cols,rows) => {
+const transitionToGameStyle = () => {
+  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
   gameGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
-  landingPage.style.display = "none";
+  transitionPage.style.display = "none";
   gamePage.style.display = "grid";
+  const userTimer = (useTimer.value === "Timer") ? true : false;
+  const gameTest = new Game(rows, cols, mines, userTimer);
 }
 
 const endToLandingStyle = () => {
   landingPage.style.display = "grid";
   endPage.style.display = "none";
 }
+
+const landingToTransitionStyle = async () => {
+  landingPage.style.display="none";
+  transitionPage.style.display="grid";
+  await setTimeout(transitionToGameStyle,2000);
+}
+
