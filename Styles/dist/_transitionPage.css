@@ -1,0 +1,24 @@
+.transition_page {
+  display: none;
+  width: 20%;
+  margin: 0 auto;
+  margin-top: 20%;
+  text-align: center;
+}
+.transition_page__text {
+  margin-bottom: 5vw;
+  font-size: 2vw;
+}
+.transition_page__gear {
+  font-size: 10vw;
+  animation: rotation 5s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
