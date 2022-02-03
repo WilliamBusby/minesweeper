@@ -2,6 +2,7 @@ const gameboard = document.getElementById("game_page__grid");
 const flagsRemaining = document.getElementById("game_page__flags_remaining");
 const endPage = document.getElementById("end_page");
 const gamePage = document.getElementById("game_page");
+const winLoseText = document.getElementById("game_page__winLose");
 
 import Squares from "./Board.mjs";
 import Mines from "./Mines.mjs";
