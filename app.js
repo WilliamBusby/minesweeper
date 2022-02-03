@@ -63,7 +63,6 @@ const transitionToGameStyle = () => {
   gamePage.style.display = "grid";
   const userTimer = (useTimer.value === "Timer") ? true : false;
   gameTest = new Game(rows, cols, mines, userTimer);
-  console.log(gameTest);
 }
 
 // const endToLandingStyle = () => {

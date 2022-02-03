@@ -80,7 +80,6 @@ var transitionToGameStyle = function transitionToGameStyle() {
   gamePage.style.display = "grid";
   var userTimer = useTimer.value === "Timer" ? true : false;
   gameTest = new _Game["default"](rows, cols, mines, userTimer);
-  console.log(gameTest);
 }; // const endToLandingStyle = () => {
 //   landingPage.style.display = "grid";
 //   endPage.style.display = "none";

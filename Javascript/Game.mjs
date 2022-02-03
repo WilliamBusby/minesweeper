@@ -83,8 +83,9 @@ export default class Game {
       if(event.button === 1) {
         let flagsAround = this.calculateFlagsSurrounding(generatedGameboard,clickedSquare,rows,cols)
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.clickSurrounding(clickedSquare, rows, cols);
+          this.clickSurroundingMiddle(clickedSquare, rows, cols);
           console.log("Yes");
+          console.log(clickedSquare.coords)
         }
       }
     })
@@ -195,6 +196,30 @@ export default class Game {
       const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
       
       if(!checkBounds && !targetSquare.isShowing) {
+        document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
+      } 
+    }
+  }
+
+  clickSurroundingMiddle(targetSquare, xMax, yMax) {
+    const squareCoords = targetSquare.coords;
+    const x = squareCoords[0];
+    const y = squareCoords[1];
+    const surroundingCoords = [
+      [x,y+1],
+      [x,y-1],
+      [x+1,y],
+      [x-1,y],
+      [x-1,y-1],
+      [x-1,y+1],
+      [x+1,y-1],
+      [x+1,y+1]
+    ];
+
+    for(let i = 0; i<surroundingCoords.length;i++) {
+      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
+      
+      if(!checkBounds) {
         document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
       } 
     }
