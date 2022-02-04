@@ -6,6 +6,7 @@ const winLoseText = document.getElementById("game_page__winLose");
 const minutesTag = document.getElementById("minutes");
 const secondsTag = document.getElementById("seconds");
 const endPageFlagsLeft = document.getElementById("end_page__flags_remaining");
+const gamePageTimer = document.getElementById("game_page__timer");
 
 const endPageTimer = document.getElementById("end_page__timer");
 let totalSeconds = 0;
@@ -20,13 +21,13 @@ export default class Game {
     this._useTimer = useTimer,
     this._gameboard = this.generateGameboardSquares(rows, columns);
     this.drawBoardOnScreen(rows, columns);
-    this.addLeftClickListener(gameboard,this._gameboard,rows,columns);
-    this.addRightClickListener(gameboard,this._gameboard);
+    this.addLeftClickListener(gameboard,this._gameboard,rows,columns, this._useTimer);
+    this.addRightClickListener(gameboard,this._gameboard, this._useTimer);
     this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
     this.checkMines(this._gameboard,this._mines);
     flagsRemaining.innerHTML = this._flagsLeft;
     this.getObjectFromGameboard(this._gameboard,"0_0");
-    this.timer = setInterval(this.addToTimer,1000);
+    this.timer = setInterval(this.addToTimer,1000, this._useTimer);
   }
 
   drawBoardOnScreen(rows,cols) {
@@ -48,7 +49,7 @@ export default class Game {
     return gameboardArray;
   }
 
-  addLeftClickListener(gameboard,generatedGameboard,rows,columns) {
+  addLeftClickListener(gameboard,generatedGameboard,rows,columns, useTimer) {
     gameboard.addEventListener("click", (event) => {
       let clickedSquare, click;
       [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
@@ -61,7 +62,7 @@ export default class Game {
           clickedSquare.isShowing = true;
           winLoseText.innerHTML = "You lose!";
           endPageFlagsLeft.innerHTML = this._flagsLeft;
-          setTimeout(this.gameToEndStyle,3000);
+          setTimeout(this.gameToEndStyle,3000, useTimer);
           clearInterval(this.timer);
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
           event.target.innerHTML = "";
@@ -84,14 +85,12 @@ export default class Game {
         let flagsAround = this.calculateFlagsSurrounding(generatedGameboard,clickedSquare,rows,cols)
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
           this.clickSurroundingMiddle(clickedSquare, rows, cols);
-          console.log("Yes");
-          console.log(clickedSquare.coords)
         }
       }
     })
   }
 
-  addRightClickListener = async (gameboard,generatedGameboard) => {
+  addRightClickListener = async (gameboard,generatedGameboard, useTimer) => {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
       let clickedSquare, click;
@@ -106,7 +105,7 @@ export default class Game {
         if(gameWin) {
           winLoseText.innerHTML = "You win!";
           endPageFlagsLeft.innerHTML = this._flagsLeft;
-          setTimeout(this.gameToEndStyle,1000);
+          setTimeout(this.gameToEndStyle,3000, useTimer);
           clearInterval(this.timer);
         }
       } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
@@ -266,7 +265,7 @@ export default class Game {
     return gameWin;
   }
 
-  gameToEndStyle() {
+  gameToEndStyle(useTimer) {
     gamePage.style.display = "none";
     endPage.style.display = "grid";
     gameboard.innerHTML = "";
@@ -279,10 +278,15 @@ export default class Game {
     if(seconds.length < 2) {
       seconds = "0" + seconds;
     }
-    endPageTimer.innerHTML =  `${minutes}:${seconds}`;
+    if(useTimer) {
+      endPageTimer.innerHTML =  `${minutes}:${seconds}`;
+    } else {
+      endPageTimer.innerHTML = "--:--";
+    }
+
   }
 
-  addToTimer() {
+  addToTimer(useTimer) {
     ++totalSeconds;
     let minutes = Math.floor(totalSeconds / 60).toString();
     let seconds = (totalSeconds%60).toString();
@@ -292,7 +296,11 @@ export default class Game {
     if(seconds.length < 2) {
       seconds = "0" + seconds;
     }
-    secondsTag.innerHTML = (seconds.toString());
-    minutesTag.innerHTML = (minutes.toString());
+    if(useTimer) {
+      gamePageTimer.innerHTML = `${minutes}:${seconds}`;
+    } else {
+      gamePageTimer.innerHTML = "--:--";
+    }
+
   }
 }

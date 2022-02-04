@@ -36,7 +36,7 @@ const difficultyChecker = (value) => {
   if(value === "easy") {
     rows = 8;
     cols = 8;
-    mines = 6;
+    mines = 8;
   } else if(value === "medium") {
     rows = 18;
     cols = 18;
@@ -61,7 +61,7 @@ const transitionToGameStyle = () => {
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
   transitionPage.style.display = "none";
   gamePage.style.display = "grid";
-  const userTimer = (useTimer.value === "Timer") ? true : false;
+  const userTimer = (useTimer.value === "timed") ? true : false;
   gameTest = new Game(rows, cols, mines, userTimer);
 }
 

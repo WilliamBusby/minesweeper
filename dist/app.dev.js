@@ -47,7 +47,7 @@ var difficultyChecker = function difficultyChecker(value) {
   if (value === "easy") {
     rows = 8;
     cols = 8;
-    mines = 6;
+    mines = 8;
   } else if (value === "medium") {
     rows = 18;
     cols = 18;
@@ -78,7 +78,7 @@ var transitionToGameStyle = function transitionToGameStyle() {
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
   transitionPage.style.display = "none";
   gamePage.style.display = "grid";
-  var userTimer = useTimer.value === "Timer" ? true : false;
+  var userTimer = useTimer.value === "timed" ? true : false;
   gameTest = new _Game["default"](rows, cols, mines, userTimer);
 }; // const endToLandingStyle = () => {
 //   landingPage.style.display = "grid";
