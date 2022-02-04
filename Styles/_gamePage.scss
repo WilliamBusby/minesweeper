@@ -3,14 +3,14 @@
 .game_page {
   display: none;
   grid-template-rows: 1fr 4fr;
-  grid-template-columns: repeat(6,1fr);
+  grid-template-columns: repeat(7,1fr);
   grid-template-areas: 
-  "timer-symbol timer . . flags-remaining flag-symbol"
-  "grid-box grid-box grid-box grid-box grid-box grid-box";
+  "timer-symbol timer timer winLose winLose flags-remaining flag-symbol"
+  "grid-box grid-box grid-box grid-box grid-box grid-box grid-box";
   height: 80%;
-  margin-top: 5%;
   width: 40%;
-  margin-left: 30%;
+  margin: 0 auto;
+  margin-top: 5%;
   align-items: center;
   column-gap: 1vw;
 
@@ -22,13 +22,15 @@
     display: grid;
     grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(10,1fr);
-    border: 0.5vw solid $grid-outline-color;
+    border: 0.6vw solid $grid-outline-color;
     border-radius: 5px;
 
     &__square {
       background-color: $grid-square-colour;
       border: 0.25vw solid $grid-outline-color;
       text-align: center;
+      width: 100%;
+      height: 100%;
     }
   }
 
@@ -38,6 +40,10 @@
 
   &__text {
     font-size: 3vw;
+  }
+
+  &__center {
+    text-align: center;
   }
 }
 
@@ -61,5 +67,9 @@
 
   &__grid {
     grid-area: grid-box;
+  }
+
+  &__winLose {
+    grid-area: winLose;
   }
 }

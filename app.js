@@ -1,7 +1,4 @@
-
-import Mines from "./Javascript/Mines.mjs";
 import Game from "./Javascript/Game.mjs";
-import Squares from "./Javascript/Board.mjs";
 
 const difficultyOption = document.getElementById("landing_page__difficulty__select");
 const useTimer = document.getElementById("landing_page__timer__select");
@@ -12,6 +9,8 @@ const landingPage = document.getElementById("landing_page");
 const gamePage = document.getElementById("game_page");
 const endPage = document.getElementById("end_page");
 const gameGrid = document.getElementById("game_page__grid");
+const endPageRestart = document.getElementById("end_page__restart");
+const transitionPage = document.getElementById("transition_page");
 
 difficultyOption.addEventListener("change", (event) => {
   event.preventDefault();
@@ -24,26 +23,28 @@ difficultyOption.addEventListener("change", (event) => {
 
 startButton.addEventListener("click", (event) => {
   event.preventDefault();
-  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
-  const userTimer = (useTimer.value === "Timer") ? true : false;
-  const gameTest = new Game(rows, cols, mines, userTimer);
-  landingToGameStyle(cols,rows);
+  landingToTransitionStyle();
+})
+
+endPageRestart.addEventListener("click", (event) => {
+  event.preventDefault();
+  location.reload();
 })
 
 const difficultyChecker = (value) => {
   let rows, cols, mines;
   if(value === "easy") {
-    rows = 6;
-    cols = 6;
-    mines = 6;
+    rows = 8;
+    cols = 8;
+    mines = 8;
   } else if(value === "medium") {
-    rows = 12;
-    cols = 12;
-    mines = 25;
+    rows = 18;
+    cols = 18;
+    mines = 40;
   } else if(value === "hard") {
     rows = 24;
     cols = 24;
-    mines = 100;
+    mines = 99;
   } else if(value === "custom") {
     rows = customDifficultyNumbers[0].value;
     cols = customDifficultyNumbers[1].value;
@@ -52,9 +53,28 @@ const difficultyChecker = (value) => {
   return [rows,cols,mines];
 }
 
-const landingToGameStyle = (cols,rows) => {
+let gameTest;
+
+const transitionToGameStyle = () => {
+  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
   gameGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
-  landingPage.style.display = "none";
+  transitionPage.style.display = "none";
   gamePage.style.display = "grid";
+  const userTimer = (useTimer.value === "timed") ? true : false;
+  gameTest = new Game(rows, cols, mines, userTimer);
 }
+
+// const endToLandingStyle = () => {
+//   landingPage.style.display = "grid";
+//   endPage.style.display = "none";
+//   gameTest = new Game(2,2,1,true);
+//   console.log(gameTest);
+// }
+
+const landingToTransitionStyle = async () => {
+  landingPage.style.display="none";
+  transitionPage.style.display="grid";
+  await setTimeout(transitionToGameStyle,2000);
+}
+

@@ -1,10 +1,6 @@
 "use strict";
 
-var _Mines = _interopRequireDefault(require("./Javascript/Mines.mjs"));
-
 var _Game = _interopRequireDefault(require("./Javascript/Game.mjs"));
-
-var _Board = _interopRequireDefault(require("./Javascript/Board.mjs"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -25,6 +21,8 @@ var landingPage = document.getElementById("landing_page");
 var gamePage = document.getElementById("game_page");
 var endPage = document.getElementById("end_page");
 var gameGrid = document.getElementById("game_page__grid");
+var endPageRestart = document.getElementById("end_page__restart");
+var transitionPage = document.getElementById("transition_page");
 difficultyOption.addEventListener("change", function (event) {
   event.preventDefault();
 
@@ -36,33 +34,28 @@ difficultyOption.addEventListener("change", function (event) {
 });
 startButton.addEventListener("click", function (event) {
   event.preventDefault();
-
-  var _difficultyChecker = difficultyChecker(difficultyOption.value),
-      _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
-      rows = _difficultyChecker2[0],
-      cols = _difficultyChecker2[1],
-      mines = _difficultyChecker2[2];
-
-  var userTimer = useTimer.value === "Timer" ? true : false;
-  var gameTest = new _Game["default"](rows, cols, mines, userTimer);
-  landingToGameStyle(cols, rows);
+  landingToTransitionStyle();
+});
+endPageRestart.addEventListener("click", function (event) {
+  event.preventDefault();
+  location.reload();
 });
 
 var difficultyChecker = function difficultyChecker(value) {
   var rows, cols, mines;
 
   if (value === "easy") {
-    rows = 6;
-    cols = 6;
-    mines = 6;
+    rows = 8;
+    cols = 8;
+    mines = 8;
   } else if (value === "medium") {
-    rows = 12;
-    cols = 12;
-    mines = 25;
+    rows = 18;
+    cols = 18;
+    mines = 40;
   } else if (value === "hard") {
     rows = 24;
     cols = 24;
-    mines = 100;
+    mines = 99;
   } else if (value === "custom") {
     rows = customDifficultyNumbers[0].value;
     cols = customDifficultyNumbers[1].value;
@@ -72,9 +65,43 @@ var difficultyChecker = function difficultyChecker(value) {
   return [rows, cols, mines];
 };
 
-var landingToGameStyle = function landingToGameStyle(cols, rows) {
+var gameTest;
+
+var transitionToGameStyle = function transitionToGameStyle() {
+  var _difficultyChecker = difficultyChecker(difficultyOption.value),
+      _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
+      rows = _difficultyChecker2[0],
+      cols = _difficultyChecker2[1],
+      mines = _difficultyChecker2[2];
+
   gameGrid.style.gridTemplateColumns = "repeat(".concat(cols, ",1fr)");
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
-  landingPage.style.display = "none";
+  transitionPage.style.display = "none";
   gamePage.style.display = "grid";
+  var userTimer = useTimer.value === "timed" ? true : false;
+  gameTest = new _Game["default"](rows, cols, mines, userTimer);
+}; // const endToLandingStyle = () => {
+//   landingPage.style.display = "grid";
+//   endPage.style.display = "none";
+//   gameTest = new Game(2,2,1,true);
+//   console.log(gameTest);
+// }
+
+
+var landingToTransitionStyle = function landingToTransitionStyle() {
+  return regeneratorRuntime.async(function landingToTransitionStyle$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          landingPage.style.display = "none";
+          transitionPage.style.display = "grid";
+          _context.next = 4;
+          return regeneratorRuntime.awrap(setTimeout(transitionToGameStyle, 2000));
+
+        case 4:
+        case "end":
+          return _context.stop();
+      }
+    }
+  });
 };
