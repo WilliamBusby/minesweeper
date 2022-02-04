@@ -3,15 +3,12 @@ const flagsRemaining = document.getElementById("game_page__flags_remaining");
 const endPage = document.getElementById("end_page");
 const gamePage = document.getElementById("game_page");
 const winLoseText = document.getElementById("game_page__winLose");
-const minutesTag = document.getElementById("minutes");
-const secondsTag = document.getElementById("seconds");
 const endPageFlagsLeft = document.getElementById("end_page__flags_remaining");
 const gamePageTimer = document.getElementById("game_page__timer");
-
 const endPageTimer = document.getElementById("end_page__timer");
 let totalSeconds = 0;
 
-import Squares from "./Board.mjs";
+import Squares from "./Squares.mjs";
 import Mines from "./Mines.mjs";
 
 export default class Game {
@@ -26,7 +23,6 @@ export default class Game {
     this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
     this.checkMines(this._gameboard,this._mines);
     flagsRemaining.innerHTML = this._flagsLeft;
-    this.getObjectFromGameboard(this._gameboard,"0_0");
     this.timer = setInterval(this.addToTimer,1000, this._useTimer);
   }
 
@@ -84,7 +80,7 @@ export default class Game {
       if(event.button === 1) {
         let flagsAround = this.calculateFlagsSurrounding(generatedGameboard,clickedSquare,rows,cols)
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.clickSurroundingMiddle(clickedSquare, rows, cols);
+          this.clickSurrounding(MiddleclickedSquare, rows, cols);
         }
       }
     })
@@ -251,6 +247,34 @@ export default class Game {
     return flagsSurrounding;
   }
 
+  calculateClickSurrounding(generatedGameboard, targetSquare, xMax, yMax, inputType) {
+    let flagsSurrounding = 0;
+    const squareCoords = targetSquare.coords;
+    const x = squareCoords[0];
+    const y = squareCoords[1];
+    const surroundingCoords = [
+      [x,y+1],
+      [x,y-1],
+      [x+1,y],
+      [x-1,y],
+      [x-1,y-1],
+      [x-1,y+1],
+      [x+1,y-1],
+      [x+1,y+1]
+    ];
+
+    for(let i = 0; i<surroundingCoords.length;i++) {
+      const surroundingX = surroundingCoords[i][0];
+      const surroundingY = surroundingCoords[i][1];
+      const checkBounds = (surroundingX < 0 || surroundingX >= xMax || surroundingY < 0 || surroundingY >= yMax);
+      if(!checkBounds) {
+        if(generatedGameboard[surroundingX][surroundingY].isFlagged) flagsSurrounding++;
+      } 
+    }
+
+    return flagsSurrounding;
+  }
+
   checkGameWin(generatedGameboard) {
     let gameWin = true;
     for(let i = 0; i< this._mines.length; i++) {
@@ -265,42 +289,35 @@ export default class Game {
     return gameWin;
   }
 
-  gameToEndStyle(useTimer) {
+  
+  changeTimer(useTimer, total) {
+    let minutes = Math.floor(total/60).toString();
+    let seconds = (total%60).toString();
+    let output = "";
+    if(minutes.length < 2) {
+      minutes = "0" + minutes;
+    }
+    if(seconds.length < 2) {
+      seconds = "0" + seconds;
+    }
+    if(useTimer) {
+      output = `${minutes}:${seconds}`;
+    } else {
+      output = "--:--";
+    }
+    return output;
+  }
+
+  gameToEndStyle = async (useTimer) => {
     gamePage.style.display = "none";
     endPage.style.display = "grid";
     gameboard.innerHTML = "";
     winLoseText.innerHTML = "";
-    let minutes = Math.floor(totalSeconds/60).toString();
-    let seconds = (totalSeconds%60).toString();
-    if(minutes.length < 2) {
-      minutes = "0" + minutes;
-    }
-    if(seconds.length < 2) {
-      seconds = "0" + seconds;
-    }
-    if(useTimer) {
-      endPageTimer.innerHTML =  `${minutes}:${seconds}`;
-    } else {
-      endPageTimer.innerHTML = "--:--";
-    }
-
+    endPageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
   }
 
-  addToTimer(useTimer) {
+  addToTimer = async (useTimer) => {
     ++totalSeconds;
-    let minutes = Math.floor(totalSeconds / 60).toString();
-    let seconds = (totalSeconds%60).toString();
-    if(minutes.length < 2) {
-      minutes = "0" + minutes;
-    }
-    if(seconds.length < 2) {
-      seconds = "0" + seconds;
-    }
-    if(useTimer) {
-      gamePageTimer.innerHTML = `${minutes}:${seconds}`;
-    } else {
-      gamePageTimer.innerHTML = "--:--";
-    }
-
+    gamePageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
   }
 }

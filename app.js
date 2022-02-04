@@ -7,7 +7,6 @@ const customDifficultyNumbers = document.getElementsByClassName("landing_page__d
 const startButton = document.getElementById("landing_page__start__button");
 const landingPage = document.getElementById("landing_page");
 const gamePage = document.getElementById("game_page");
-const endPage = document.getElementById("end_page");
 const gameGrid = document.getElementById("game_page__grid");
 const endPageRestart = document.getElementById("end_page__restart");
 const transitionPage = document.getElementById("transition_page");
@@ -65,16 +64,8 @@ const transitionToGameStyle = () => {
   gameTest = new Game(rows, cols, mines, userTimer);
 }
 
-// const endToLandingStyle = () => {
-//   landingPage.style.display = "grid";
-//   endPage.style.display = "none";
-//   gameTest = new Game(2,2,1,true);
-//   console.log(gameTest);
-// }
-
 const landingToTransitionStyle = async () => {
   landingPage.style.display="none";
   transitionPage.style.display="grid";
   await setTimeout(transitionToGameStyle,2000);
 }
-

@@ -1,8 +1,7 @@
 .landing_page {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(4, 1fr);
-  grid-template-areas: "head ." "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(1, 1fr);
   width: 60%;
   margin: 0 auto;
   height: 60%;
@@ -25,8 +24,9 @@
   margin: 0 auto;
 }
 .landing_page li {
-  font-size: 1vw;
-  margin-top: 20px;
+  font-size: 1.2vw;
+  margin-top: 15px;
+  font-weight: 200;
 }
 .landing_page__dropdown {
   display: grid;
@@ -68,4 +68,17 @@
 #landing_page__how_to_play {
   grid-area: howToPlay;
   align-self: start;
+}
+#landing_page__how_to_play ol {
+  display: flex;
+  flex-direction: column;
+  list-style-position: inside;
+}
+
+@media screen and (min-width: 992px) {
+  .landing_page {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    grid-template-areas: "head howToPlay" "difficulty howToPlay" "timer howToPlay" "startButton howToPlay";
+  }
 }
