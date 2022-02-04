@@ -19,7 +19,6 @@ var customDifficultyNumbers = document.getElementsByClassName("landing_page__dro
 var startButton = document.getElementById("landing_page__start__button");
 var landingPage = document.getElementById("landing_page");
 var gamePage = document.getElementById("game_page");
-var endPage = document.getElementById("end_page");
 var gameGrid = document.getElementById("game_page__grid");
 var endPageRestart = document.getElementById("end_page__restart");
 var transitionPage = document.getElementById("transition_page");
@@ -80,13 +79,7 @@ var transitionToGameStyle = function transitionToGameStyle() {
   gamePage.style.display = "grid";
   var userTimer = useTimer.value === "timed" ? true : false;
   gameTest = new _Game["default"](rows, cols, mines, userTimer);
-}; // const endToLandingStyle = () => {
-//   landingPage.style.display = "grid";
-//   endPage.style.display = "none";
-//   gameTest = new Game(2,2,1,true);
-//   console.log(gameTest);
-// }
-
+};
 
 var landingToTransitionStyle = function landingToTransitionStyle() {
   return regeneratorRuntime.async(function landingToTransitionStyle$(_context) {
