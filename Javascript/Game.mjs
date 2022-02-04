@@ -190,17 +190,12 @@ export default class Game {
     return gameWin;
   }
 
-  
   changeTimer(useTimer, total) {
     let minutes = Math.floor(total/60).toString();
     let seconds = (total%60).toString();
     let output = "";
-    if(minutes.length < 2) {
-      minutes = "0" + minutes;
-    }
-    if(seconds.length < 2) {
-      seconds = "0" + seconds;
-    }
+    if(minutes.length < 2) minutes = "0" + minutes;
+    if(seconds.length < 2) seconds = "0" + seconds;
     if(useTimer) {
       output = `${minutes}:${seconds}`;
     } else {
