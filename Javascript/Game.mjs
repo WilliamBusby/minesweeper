@@ -52,22 +52,19 @@ export default class Game {
       if(!clickedSquare.isFlagged) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-        clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines")
+        clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines");
         if(clickedSquare.hasMine) {
           event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
-          clickedSquare.isShowing = true;
           winLoseText.innerHTML = "You lose!";
           endPageFlagsLeft.innerHTML = this._flagsLeft;
           setTimeout(this.gameToEndStyle,3000, useTimer);
           clearInterval(this.timer);
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
-          event.target.innerHTML = "";
           this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "click");
-          clickedSquare.isShowing = true;
         } else {
           event.target.innerHTML = clickedSquare.numberOfMinesSurrounding;
-          clickedSquare.isShowing = true;
         }
+        clickedSquare.isShowing = true;
       }
     })
   }
@@ -105,7 +102,7 @@ export default class Game {
           clearInterval(this.timer);
         }
       } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
-        click.innerHTML = ``;
+        click.innerHTML = "";
         this._flagsLeft++;
         flagsRemaining.innerHTML = this._flagsLeft;
         clickedSquare.isFlagged = false;
@@ -136,17 +133,15 @@ export default class Game {
     if(clickedSquare.nodeName == "DIV") {
       clickedValue = this.getObjectFromGameboard(generatedGameboard, clickedSquare.id);
       click = clickedSquare;
-    } else if(clickedSquare.nodeName == "path") {
-      clickedValue = this.getObjectFromGameboard(generatedGameboard, clickedSquare.parentElement.parentElement.id);
-      click = clickedSquare.parentElement.parentElement;
     } else if(clickedSquare.nodeName == "svg") {
       clickedValue = this.getObjectFromGameboard(generatedGameboard, clickedSquare.parentElement.id);
       click = clickedSquare.parentElement;
-    }
-
+    } else if(clickedSquare.nodeName == "path") {
+      clickedValue = this.getObjectFromGameboard(generatedGameboard, clickedSquare.parentElement.parentElement.id);
+      click = clickedSquare.parentElement.parentElement;
+    } 
     return [clickedValue, click]
   }
-
 
   calculateClickSurrounding(generatedGameboard, targetSquare, xMax, yMax, inputType) {
     let changedValue = 0;
@@ -178,7 +173,6 @@ export default class Game {
         document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
       }
     }
-
     return changedValue;
   }
 
