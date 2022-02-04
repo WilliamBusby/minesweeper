@@ -52,7 +52,7 @@ export default class Game {
       if(!clickedSquare.isFlagged) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-        clickedSquare.numberOfMinesSurrounding = this.calculateMinesSurrounding(generatedGameboard, clickedSquare, rows, columns)
+        clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines")
         if(clickedSquare.hasMine) {
           event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
           clickedSquare.isShowing = true;
@@ -62,7 +62,7 @@ export default class Game {
           clearInterval(this.timer);
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
           event.target.innerHTML = "";
-          this.clickSurrounding(clickedSquare, rows, columns);
+          this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "click");
           clickedSquare.isShowing = true;
         } else {
           event.target.innerHTML = clickedSquare.numberOfMinesSurrounding;
@@ -78,9 +78,9 @@ export default class Game {
       let clickedSquare,click;
       [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(event.button === 1) {
-        let flagsAround = this.calculateFlagsSurrounding(generatedGameboard,clickedSquare,rows,cols)
+        let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.clickSurrounding(MiddleclickedSquare, rows, cols);
+          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"middleClick");
         }
       }
     })
@@ -131,31 +131,6 @@ export default class Game {
     return gameboard[numberCoords[0]][numberCoords[1]];
   }
 
-  calculateMinesSurrounding(generatedGameboard, targetSquare, xMax, yMax) {
-    let numberOfMines = 0;
-    const squareCoords = targetSquare.coords;
-    const x = squareCoords[0];
-    const y = squareCoords[1];
-    const surroundingCoords = [
-      [x,y+1],
-      [x,y-1],
-      [x+1,y],
-      [x-1,y],
-      [x-1,y-1],
-      [x-1,y+1],
-      [x+1,y-1],
-      [x+1,y+1]
-    ];
-
-    for(let i = 0; i<surroundingCoords.length;i++) {
-      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
-      if(!checkBounds) {
-        if(generatedGameboard[surroundingCoords[i][0]][surroundingCoords[i][1]].hasMine) numberOfMines++;
-      } 
-    }
-    return numberOfMines;
-  }
-
   checkSquareClickedInfo(clickedSquare, generatedGameboard) {
     let clickedValue, click;
     if(clickedSquare.nodeName == "DIV") {
@@ -172,83 +147,9 @@ export default class Game {
     return [clickedValue, click]
   }
 
-  clickSurrounding(targetSquare, xMax, yMax) {
-    const squareCoords = targetSquare.coords;
-    const x = squareCoords[0];
-    const y = squareCoords[1];
-    const surroundingCoords = [
-      [x,y+1],
-      [x,y-1],
-      [x+1,y],
-      [x-1,y],
-      [x-1,y-1],
-      [x-1,y+1],
-      [x+1,y-1],
-      [x+1,y+1]
-    ];
-
-    for(let i = 0; i<surroundingCoords.length;i++) {
-      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
-      
-      if(!checkBounds && !targetSquare.isShowing) {
-        document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
-      } 
-    }
-  }
-
-  clickSurroundingMiddle(targetSquare, xMax, yMax) {
-    const squareCoords = targetSquare.coords;
-    const x = squareCoords[0];
-    const y = squareCoords[1];
-    const surroundingCoords = [
-      [x,y+1],
-      [x,y-1],
-      [x+1,y],
-      [x-1,y],
-      [x-1,y-1],
-      [x-1,y+1],
-      [x+1,y-1],
-      [x+1,y+1]
-    ];
-
-    for(let i = 0; i<surroundingCoords.length;i++) {
-      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
-      
-      if(!checkBounds) {
-        document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
-      } 
-    }
-  }
-
-  calculateFlagsSurrounding(generatedGameboard, targetSquare, xMax, yMax) {
-    let flagsSurrounding = 0;
-    const squareCoords = targetSquare.coords;
-    const x = squareCoords[0];
-    const y = squareCoords[1];
-    const surroundingCoords = [
-      [x,y+1],
-      [x,y-1],
-      [x+1,y],
-      [x-1,y],
-      [x-1,y-1],
-      [x-1,y+1],
-      [x+1,y-1],
-      [x+1,y+1]
-    ];
-
-    for(let i = 0; i<surroundingCoords.length;i++) {
-      const checkBounds = (surroundingCoords[i][0] < 0 || surroundingCoords[i][0] >= xMax || surroundingCoords[i][1] < 0 || surroundingCoords[i][1] >= yMax);
-      
-      if(!checkBounds) {
-        if(generatedGameboard[surroundingCoords[i][0]][surroundingCoords[i][1]].isFlagged) flagsSurrounding++;
-      } 
-    }
-
-    return flagsSurrounding;
-  }
 
   calculateClickSurrounding(generatedGameboard, targetSquare, xMax, yMax, inputType) {
-    let flagsSurrounding = 0;
+    let changedValue = 0;
     const squareCoords = targetSquare.coords;
     const x = squareCoords[0];
     const y = squareCoords[1];
@@ -267,12 +168,18 @@ export default class Game {
       const surroundingX = surroundingCoords[i][0];
       const surroundingY = surroundingCoords[i][1];
       const checkBounds = (surroundingX < 0 || surroundingX >= xMax || surroundingY < 0 || surroundingY >= yMax);
-      if(!checkBounds) {
-        if(generatedGameboard[surroundingX][surroundingY].isFlagged) flagsSurrounding++;
-      } 
+      if(!checkBounds && inputType === "flags") {
+        if(generatedGameboard[surroundingX][surroundingY].isFlagged) changedValue++;
+      } else if(!checkBounds && inputType === "middleClick") {
+        document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
+      } else if(!checkBounds && inputType=== "mines") {
+        if(generatedGameboard[surroundingCoords[i][0]][surroundingCoords[i][1]].hasMine) changedValue++;
+      } else if(!checkBounds && !targetSquare.isShowing && inputType === "click") {
+        document.getElementById(`${surroundingCoords[i][0]}_${surroundingCoords[i][1]}`).click();
+      }
     }
 
-    return flagsSurrounding;
+    return changedValue;
   }
 
   checkGameWin(generatedGameboard) {
