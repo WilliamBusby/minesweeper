@@ -48,8 +48,7 @@ const difficultyChecker = (value) => {
 
 let gameTest;
 
-const transitionToGameStyle = () => {
-  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
+const transitionToGameStyle = (rows,cols,mines) => {
   gameGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
   transitionPage.style.display = "none";
@@ -59,7 +58,12 @@ const transitionToGameStyle = () => {
 }
 
 const landingToTransitionStyle = async () => {
-  landingPage.style.display="none";
-  transitionPage.style.display="grid";
-  await setTimeout(transitionToGameStyle,2000);
+  const [rows, cols, mines] = difficultyChecker(difficultyOption.value);
+  if(mines > (rows * cols)) {
+    alert("You cannot have more mines than squares avaiable.")
+  } else {
+    landingPage.style.display="none";
+    transitionPage.style.display="grid";
+    await setTimeout(transitionToGameStyle,2000,rows,cols,mines);
+  }
 }

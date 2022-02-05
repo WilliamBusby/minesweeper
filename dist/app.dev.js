@@ -58,13 +58,7 @@ var difficultyChecker = function difficultyChecker(value) {
 
 var gameTest;
 
-var transitionToGameStyle = function transitionToGameStyle() {
-  var _difficultyChecker = difficultyChecker(difficultyOption.value),
-      _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3),
-      rows = _difficultyChecker2[0],
-      cols = _difficultyChecker2[1],
-      mines = _difficultyChecker2[2];
-
+var transitionToGameStyle = function transitionToGameStyle(rows, cols, mines) {
   gameGrid.style.gridTemplateColumns = "repeat(".concat(cols, ",1fr)");
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
   transitionPage.style.display = "none";
@@ -74,16 +68,30 @@ var transitionToGameStyle = function transitionToGameStyle() {
 };
 
 var landingToTransitionStyle = function landingToTransitionStyle() {
+  var _difficultyChecker, _difficultyChecker2, rows, cols, mines;
+
   return regeneratorRuntime.async(function landingToTransitionStyle$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
+          _difficultyChecker = difficultyChecker(difficultyOption.value), _difficultyChecker2 = _slicedToArray(_difficultyChecker, 3), rows = _difficultyChecker2[0], cols = _difficultyChecker2[1], mines = _difficultyChecker2[2];
+
+          if (!(mines > rows * cols)) {
+            _context.next = 5;
+            break;
+          }
+
+          alert("You cannot have more mines than squares avaiable.");
+          _context.next = 9;
+          break;
+
+        case 5:
           landingPage.style.display = "none";
           transitionPage.style.display = "grid";
-          _context.next = 4;
-          return regeneratorRuntime.awrap(setTimeout(transitionToGameStyle, 2000));
+          _context.next = 9;
+          return regeneratorRuntime.awrap(setTimeout(transitionToGameStyle, 2000, rows, cols, mines));
 
-        case 4:
+        case 9:
         case "end":
           return _context.stop();
       }
