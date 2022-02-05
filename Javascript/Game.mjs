@@ -8,47 +8,26 @@ const gamePageTimer = document.getElementById("game_page__timer");
 const endPageTimer = document.getElementById("end_page__timer");
 let totalSeconds = 0;
 
-import Squares from "./Squares.mjs";
 import Mines from "./Mines.mjs";
+import Board from "./Board.mjs";
 
 export default class Game {
   constructor(rows, columns, numberOfMines, useTimer) {
+    this._gameboard = new Board(rows, columns).generatedGameboard;
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
+    this.checkMines(this._gameboard,this._mines);
     this._flagsLeft = numberOfMines;
+    flagsRemaining.innerHTML = this._flagsLeft;
     this._useTimer = useTimer,
-    this._gameboard = this.generateGameboardSquares(rows, columns);
-    this.drawBoardOnScreen(rows, columns);
     this.addLeftClickListener(gameboard,this._gameboard,rows,columns, this._useTimer);
     this.addRightClickListener(gameboard,this._gameboard, this._useTimer);
     this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
-    this.checkMines(this._gameboard,this._mines);
-    flagsRemaining.innerHTML = this._flagsLeft;
     this.timer = setInterval(this.addToTimer,1000, this._useTimer);
-  }
-
-  drawBoardOnScreen(rows,cols) {
-    for(let i = 0; i < cols; i++) {
-      for(let j = 0; j < rows; j++) {
-        gameboard.innerHTML += `\n<div class="game_page__grid__square" id="${String(j)}_${String(i)}"></div>`
-      }
-    }
-  }
-
-  generateGameboardSquares(rows,cols) {
-    const gameboardArray = [];
-    for(let i = 0; i < cols; i++) {
-      gameboardArray.push([]);
-      for(let j = 0; j < rows; j++) {
-        gameboardArray[i].push(new Squares(i,j));
-      }
-    }
-    return gameboardArray;
   }
 
   addLeftClickListener(gameboard,generatedGameboard,rows,columns, useTimer) {
     gameboard.addEventListener("click", (event) => {
-      let clickedSquare, click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(!clickedSquare.isFlagged) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
@@ -72,8 +51,7 @@ export default class Game {
   addMiddleClickListener(gameboard,generatedGameboard,rows,cols) {
     gameboard.addEventListener("auxclick", (event) => {
       event.preventDefault();
-      let clickedSquare,click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(event.button === 1) {
         let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
@@ -86,8 +64,7 @@ export default class Game {
   addRightClickListener = async (gameboard,generatedGameboard, useTimer) => {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
-      let clickedSquare, click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
         click.innerHTML = `<i class="fas fa-flag"></i>`;
         click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
