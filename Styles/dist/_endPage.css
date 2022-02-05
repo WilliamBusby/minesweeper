@@ -24,6 +24,11 @@
   width: 80%;
   height: 100%;
   font-size: 8vw;
+  background-color: #7C8682;
+  border: 1px solid #F3F7F4;
+  border-radius: 2px;
+  color: #F3F7F4;
+  font-family: "Fjalla One", sans-serif;
 }
 
 #end_page__timer_symbol {

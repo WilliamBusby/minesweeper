@@ -34,6 +34,11 @@
       width: 80%;
       height: 100%;
       font-size: 8vw;
+      background-color: $grid-square-colour;
+      border: 1px solid $font-color;
+      border-radius: 2px;
+      color: $font-color;
+      font-family: 'Fjalla One', sans-serif;
     }
   }
 
