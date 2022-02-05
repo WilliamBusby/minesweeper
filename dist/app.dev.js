@@ -25,7 +25,8 @@ var endPageRestart = document.getElementById("end_page__restart");
 difficultyOption.addEventListener("change", function () {
   customDifficultySection.style.display = difficultyOption.value === "custom" ? "grid" : "none";
 });
-startButton.addEventListener("click", function () {
+startButton.addEventListener("click", function (event) {
+  event.preventDefault();
   landingToTransitionStyle();
 });
 endPageRestart.addEventListener("click", function () {
@@ -56,15 +57,13 @@ var difficultyChecker = function difficultyChecker(value) {
   return [rows, cols, mines];
 };
 
-var gameTest;
-
 var transitionToGameStyle = function transitionToGameStyle(rows, cols, mines) {
   gameGrid.style.gridTemplateColumns = "repeat(".concat(cols, ",1fr)");
   gameGrid.style.gridTemplateRows = "repeat(".concat(rows, ",1fr)");
   transitionPage.style.display = "none";
   gamePage.style.display = "grid";
-  var userTimer = useTimer.value === "timed" ? true : false;
-  gameTest = new _Game["default"](rows, cols, mines, userTimer);
+  var userTimer = useTimer.value === "timed";
+  new _Game["default"](rows, cols, mines, userTimer);
 };
 
 var landingToTransitionStyle = function landingToTransitionStyle() {

@@ -28,7 +28,7 @@ export default class Game {
   addLeftClickListener(gameboard,generatedGameboard,rows,columns, useTimer) {
     gameboard.addEventListener("click", (event) => {
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(!clickedSquare.isFlagged) {
+      if(!clickedSquare.isFlagged && !clickedSquare.isShowing) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
         clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines");
@@ -55,7 +55,7 @@ export default class Game {
       if(event.button === 1) {
         let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"middleClick");
+          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"click");
         }
       }
     })
@@ -71,14 +71,13 @@ export default class Game {
         this._flagsLeft--;
         flagsRemaining.innerHTML = this._flagsLeft;
         clickedSquare.isFlagged = true;
-        let gameWin = this.checkGameWin(generatedGameboard);
-        if(gameWin) {
+        if(this.checkGameWin(generatedGameboard)) {
           winLoseText.innerHTML = "You win!";
           endPageFlagsLeft.innerHTML = this._flagsLeft;
           setTimeout(this.gameToEndStyle,3000, useTimer);
           clearInterval(this.timer);
         }
-      } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
+      } else if(clickedSquare.isFlagged) {
         click.innerHTML = "";
         this._flagsLeft++;
         flagsRemaining.innerHTML = this._flagsLeft;
@@ -143,11 +142,9 @@ export default class Game {
       if(!checkBounds) {
         if(inputType === "flags") {
           if(generatedGameboard[surroundingX][surroundingY].isFlagged) outputValue++;
-        } else if(inputType === "middleClick") {
-          document.getElementById(`${surroundingX}_${surroundingY}`).click();
         } else if(inputType=== "mines") {
           if(generatedGameboard[surroundingX][surroundingY].hasMine) outputValue++;
-        } else if(!targetSquare.isShowing && inputType === "click") {
+        } else if(inputType === "click") {
           document.getElementById(`${surroundingX}_${surroundingY}`).click();
         }
       }
@@ -183,16 +180,14 @@ export default class Game {
     return output;
   }
 
-  gameToEndStyle = async (useTimer) => {
-    gamePage.style.display = "none";
-    endPage.style.display = "grid";
-    gameboard.innerHTML = "";
-    winLoseText.innerHTML = "";
-    endPageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
-  }
-
   addToTimer = async (useTimer) => {
     ++totalSeconds;
     gamePageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
+  }
+
+  gameToEndStyle() {
+    gamePage.style.display = "none";
+    endPage.style.display = "grid";
+    endPageTimer.innerHTML = gamePageTimer.innerHTML;
   }
 }

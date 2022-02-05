@@ -16,7 +16,8 @@ difficultyOption.addEventListener("change", () => {
   customDifficultySection.style.display = (difficultyOption.value === "custom") ? "grid" : "none";
 })
 
-startButton.addEventListener("click", () => {
+startButton.addEventListener("click", (event) => {
+  event.preventDefault();
   landingToTransitionStyle();
 })
 
@@ -46,15 +47,13 @@ const difficultyChecker = (value) => {
   return [rows,cols,mines];
 }
 
-let gameTest;
-
 const transitionToGameStyle = (rows,cols,mines) => {
   gameGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
   gameGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
   transitionPage.style.display = "none";
   gamePage.style.display = "grid";
-  const userTimer = (useTimer.value === "timed") ? true : false;
-  gameTest = new Game(rows, cols, mines, userTimer);
+  const userTimer = (useTimer.value === "timed");
+  new Game(rows, cols, mines, userTimer);
 }
 
 const landingToTransitionStyle = async () => {
