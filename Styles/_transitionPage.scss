@@ -1,18 +1,18 @@
 
 .transition_page {
   display: none;
-  width: 20%;
+  width: 80%;
   margin: 0 auto;
-  margin-top: 20%;
+  margin-top: 50%;
   text-align: center;
 
   &__text {
     margin-bottom: 5vw;
-    font-size: 2vw;
+    font-size: 8vw;
   }
 
   &__gear {
-    font-size: 10vw;
+    font-size: 40vw;
     animation: rotation 5s infinite linear;
   }
 }
@@ -28,9 +28,23 @@
 }
 
 @media screen and (min-width: 600px) {
+  .transition_page {
+    margin-top: 35%;
+  }
 
 }
 
 @media screen and (min-width: 992px) {
+  .transition_page {
+    width: 20%;
+    margin-top: 20%;
   
+    &__text {
+      font-size: 2vw;
+    }
+  
+    &__gear {
+      font-size: 10vw;
+    }
+  }
 }
