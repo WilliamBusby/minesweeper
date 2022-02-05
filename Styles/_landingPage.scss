@@ -54,6 +54,8 @@
       background-color: $grid-square-colour;
       color: $font-color;
       font-family: 'Fjalla One', sans-serif;
+      border: 1px solid $font-color;
+      border-radius: 2px;
     }
 
     &__custom {
