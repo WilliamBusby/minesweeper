@@ -43,6 +43,8 @@
   background-color: #7C8682;
   color: #F3F7F4;
   font-family: "Fjalla One", sans-serif;
+  border: 1px solid #F3F7F4;
+  border-radius: 2px;
 }
 .landing_page__dropdown__custom {
   text-align: left;
