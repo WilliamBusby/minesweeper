@@ -2,31 +2,32 @@
 
 .landing_page {
   display: grid;
-  grid-template-columns: repeat(5,1fr);
-  grid-template-rows: repeat(1,1fr);
-  // grid-template-areas: 
-  // "head howToPlay"
-  // "difficulty howToPlay"
-  // "timer howToPlay"
-  // "startButton howToPlay";
-  width: 60%;
+  grid-template-rows: 1fr 1.75fr 1fr 0.5fr 4fr;
+  grid-template-areas: 
+  "head"
+  "difficulty"
+  "timer"
+  "startButton"
+  "howToPlay";
+  width: 90%;
   margin: 0 auto;
-  height: 60%;
+  height: 90%;
   margin-top: 10%;
-  text-align: left;
-  column-gap: 5vw;
+  text-align: center;
+  row-gap: 3vw;
   align-items: center;
 
   h1 {
-    font-size: $h1-size;
+    font-size: 10vw;
   }
 
   h2 {
-    font-size: $h2-size;
+    font-size: 10vw;
   }
 
   h3 {
-    font-size: $h3-size;
+    font-size: 8vw;
+    text-align: left;
   }
 
   p {
@@ -35,9 +36,12 @@
   }
 
   li {
-    font-size: 1.2vw;
-    margin-top: 15px;
+    font-size: 3vw;
+    margin-top: 5px;
     font-weight: 200;
+    width: 80%;
+    margin: 0 auto;
+    text-align: left;
   }
 
   &__dropdown {
@@ -45,7 +49,7 @@
     grid-template-columns: 2fr 1fr;
 
     &__menu {
-      height: 2vw;
+      height: 8vw;
     }
   }
 
@@ -56,8 +60,7 @@
     
     button {
       width: 100%;
-      height: 40%;
-      margin-top: 10%;
+      height: 80%;
     }
   }
 }
@@ -107,17 +110,122 @@
 // MEDIA QUERIES
 
 @media screen and (min-width: 600px) {
+  .landing_page {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(5,1fr);
+    grid-template-areas: 
+    "head head"
+    "difficulty howToPlay"
+    "timer howToPlay"
+    "startButton howToPlay"
+    ". howToPlay";
 
+    margin-top: 15%;
+    
+    h1 {
+      font-size: 6vw;
+    }
+  
+    h2 {
+      font-size: 5vw;
+    }
+  
+    h3 {
+      font-size: 4vw;
+    }
+
+    li {
+      font-size: 2vw;
+      margin-top: 15px;
+    }
+
+    &__dropdown {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+  
+      &__menu {
+        height: 3.5vw;
+      }
+      
+      &__custom {
+        
+        &__label {
+          font-size: 2.5vw;
+        }
+      }
+    }
+
+    &__button {
+      width: 60%;
+      margin-left: 20%;
+      height: 100%;
+      
+      button {
+        width: 100%;
+        height: 40%;
+        margin-top: 10%;
+      }
+    }
+  }
 }
 
 @media screen and (min-width: 992px) {
   .landing_page {
+    display: grid;
     grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(4,1fr);
+    grid-template-rows: repeat(5,1fr);
     grid-template-areas: 
     "head howToPlay"
     "difficulty howToPlay"
     "timer howToPlay"
-    "startButton howToPlay";
+    "startButton howToPlay"
+    ". howToPlay";
+
+    width: 60%;
+    margin: 0 auto;
+    height: 70%;
+    margin-top: 10%;
+    text-align: left;
+    column-gap: 5vw;
+    align-items: center;
+
+    h1 {
+      font-size: $h1-size;
+    }
+  
+    h2 {
+      font-size: $h2-size;
+    }
+  
+    h3 {
+      font-size: $h3-size;
+    }
+
+    li {
+      font-size: 1.3vw;
+      margin-top: 15px;
+    }
+
+    &__dropdown {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+  
+      &__menu {
+        height: 2vw;
+      }
+    }
+
+    &__button {
+      width: 60%;
+      margin-left: 20%;
+      height: 100%;
+      
+      button {
+        width: 100%;
+        height: 40%;
+        margin-top: 10%;
+      }
+    }
   }
 }
