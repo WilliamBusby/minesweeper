@@ -10,9 +10,9 @@
   "howToPlay"
   "startButton";
   width: 90%;
-  height: 90%;
+  height: 80%;
   margin: 0 auto;
-  margin-top: 10%;
+  margin-top: 5%;
   text-align: center;
   align-items: center;
   row-gap: 3vw;
@@ -159,6 +159,7 @@
     "timer howToPlay"
     "startButton howToPlay"
     ". howToPlay";
+    margin-top: 10%;
 
     h1 {
       font-size: 6vw;
