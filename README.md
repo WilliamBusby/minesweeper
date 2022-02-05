@@ -42,24 +42,24 @@ Minesweeper is a game created and owned by Microsoft Studios. This game is a per
 
 Desktop landing page.
 
-![Desktop landing page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_landing_page.PNG?raw=true)
+![Desktop landing page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_landing_page.PNG?raw=true)
 
 Desktop game page.
 
-![Desktop game page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_game_page.PNG?raw=true)
+![Desktop game page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_game_page.PNG?raw=true)
 
 Desktop end page.
 
-![Desktop end page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_end_page.PNG?raw=true)
+![Desktop end page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Desktop_end_page.PNG?raw=true)
 
 Mobile landing page.
 
-![Mobile landing page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_landing_page.PNG?raw=true)
+![Mobile landing page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_landing_page.PNG?raw=true)
 
 Mobile game page.
 
-![Mobile game page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_game_page.PNG?raw=true)
+![Mobile game page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_game_page.PNG?raw=true)
 
 Mobile end page.
 
-![Mobile end page] (https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_end_page.PNG?raw=true)
+![Mobile end page](https://github.com/WilliamBusby/minesweeper/blob/main/Images/Mobile_end_page.PNG?raw=true)
