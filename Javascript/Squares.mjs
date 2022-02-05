@@ -43,5 +43,4 @@ export default class Squares {
   set isShowing(isShowing) {
     this._isShowing = isShowing;
   }
-
 }
