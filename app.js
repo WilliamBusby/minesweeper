@@ -6,27 +6,21 @@ const customDifficultySection = document.getElementById("landing_page__dropdown_
 const customDifficultyNumbers = document.getElementsByClassName("landing_page__dropdown__custom__input");
 const startButton = document.getElementById("landing_page__start__button");
 const landingPage = document.getElementById("landing_page");
+const transitionPage = document.getElementById("transition_page");
 const gamePage = document.getElementById("game_page");
 const gameGrid = document.getElementById("game_page__grid");
 const endPageRestart = document.getElementById("end_page__restart");
-const transitionPage = document.getElementById("transition_page");
 
-difficultyOption.addEventListener("change", (event) => {
-  event.preventDefault();
-  if(difficultyOption.value === "custom") {
-    customDifficultySection.style.display = "grid";
-  } else {
-    customDifficultySection.style.display = "none";
-  }
+
+difficultyOption.addEventListener("change", () => {
+  customDifficultySection.style.display = (difficultyOption.value === "custom") ? "grid" : "none";
 })
 
-startButton.addEventListener("click", (event) => {
-  event.preventDefault();
+startButton.addEventListener("click", () => {
   landingToTransitionStyle();
 })
 
-endPageRestart.addEventListener("click", (event) => {
-  event.preventDefault();
+endPageRestart.addEventListener("click", () => {
   location.reload();
 })
 

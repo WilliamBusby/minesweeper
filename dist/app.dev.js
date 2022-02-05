@@ -18,25 +18,17 @@ var customDifficultySection = document.getElementById("landing_page__dropdown__c
 var customDifficultyNumbers = document.getElementsByClassName("landing_page__dropdown__custom__input");
 var startButton = document.getElementById("landing_page__start__button");
 var landingPage = document.getElementById("landing_page");
+var transitionPage = document.getElementById("transition_page");
 var gamePage = document.getElementById("game_page");
 var gameGrid = document.getElementById("game_page__grid");
 var endPageRestart = document.getElementById("end_page__restart");
-var transitionPage = document.getElementById("transition_page");
-difficultyOption.addEventListener("change", function (event) {
-  event.preventDefault();
-
-  if (difficultyOption.value === "custom") {
-    customDifficultySection.style.display = "grid";
-  } else {
-    customDifficultySection.style.display = "none";
-  }
+difficultyOption.addEventListener("change", function () {
+  customDifficultySection.style.display = difficultyOption.value === "custom" ? "grid" : "none";
 });
-startButton.addEventListener("click", function (event) {
-  event.preventDefault();
+startButton.addEventListener("click", function () {
   landingToTransitionStyle();
 });
-endPageRestart.addEventListener("click", function (event) {
-  event.preventDefault();
+endPageRestart.addEventListener("click", function () {
   location.reload();
 });
 
