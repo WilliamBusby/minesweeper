@@ -17,18 +17,17 @@ export default class Game {
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
     this.checkMines(this._gameboard,this._mines);
     this._flagsLeft = numberOfMines;
+    flagsRemaining.innerHTML = this._flagsLeft;
     this._useTimer = useTimer,
     this.addLeftClickListener(gameboard,this._gameboard,rows,columns, this._useTimer);
     this.addRightClickListener(gameboard,this._gameboard, this._useTimer);
     this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
-    flagsRemaining.innerHTML = this._flagsLeft;
     this.timer = setInterval(this.addToTimer,1000, this._useTimer);
   }
 
   addLeftClickListener(gameboard,generatedGameboard,rows,columns, useTimer) {
     gameboard.addEventListener("click", (event) => {
-      let clickedSquare, click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(!clickedSquare.isFlagged) {
         event.target.style.backgroundColor = "#3D3B3C";
         event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
@@ -52,8 +51,7 @@ export default class Game {
   addMiddleClickListener(gameboard,generatedGameboard,rows,cols) {
     gameboard.addEventListener("auxclick", (event) => {
       event.preventDefault();
-      let clickedSquare,click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(event.button === 1) {
         let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
@@ -66,8 +64,7 @@ export default class Game {
   addRightClickListener = async (gameboard,generatedGameboard, useTimer) => {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
-      let clickedSquare, click;
-      [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
         click.innerHTML = `<i class="fas fa-flag"></i>`;
         click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
