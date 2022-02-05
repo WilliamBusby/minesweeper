@@ -3,10 +3,10 @@
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-template-areas: "timer-symbol timer" "flag-symbol flags-remaining" "restart restart";
-  width: 20%;
-  height: 30%;
+  width: 60%;
+  height: 40%;
   margin: 0 auto;
-  margin-top: 20vh;
+  margin-top: 50%;
   align-items: center;
   text-align: center;
   column-gap: 40px;
@@ -18,11 +18,12 @@
   text-align: right;
 }
 .end_page__text {
-  font-size: 3vw;
+  font-size: 8vw;
 }
 .end_page__button button {
-  width: 60%;
+  width: 80%;
   height: 100%;
+  font-size: 8vw;
 }
 
 #end_page__timer_symbol {
@@ -39,4 +40,24 @@
 }
 #end_page__restart {
   grid-area: restart;
+}
+
+@media screen and (min-width: 600px) {
+  .end_page {
+    height: 40%;
+    margin-top: 45%;
+  }
+}
+@media screen and (min-width: 992px) {
+  .end_page {
+    width: 20%;
+    height: 30%;
+    margin-top: 18%;
+  }
+  .end_page__text {
+    font-size: 3vw;
+  }
+  .end_page__button button {
+    font-size: 3vw;
+  }
 }

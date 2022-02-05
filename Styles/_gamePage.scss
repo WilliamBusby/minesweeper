@@ -2,26 +2,27 @@
 
 .game_page {
   display: none;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: repeat(2,1fr);
   grid-template-columns: repeat(7,1fr);
   grid-template-areas: 
   "timer-symbol timer timer winLose winLose flags-remaining flag-symbol"
   "grid-box grid-box grid-box grid-box grid-box grid-box grid-box";
-  height: 80%;
-  width: 40%;
+  height: 70%;
+  width: 90%;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 20%;
   align-items: center;
   column-gap: 1vw;
 
   &__grid {
     margin: 0 auto;
+    height: 100%;
     background-color: $grid-outline-color;
-    height: 60vh;
-    width: 60vh;
+    height: min(85vh,85vw);
+    width: min(85vh,85vw);
     display: grid;
-    grid-template-columns: repeat(10,1fr);
-    grid-template-rows: repeat(10,1fr);
+    grid-template-columns: repeat(8,1fr);
+    grid-template-rows: repeat(8,1fr);
     border: 0.6vw solid $grid-outline-color;
     border-radius: 5px;
 
@@ -38,12 +39,12 @@
     text-align: right;
   }
 
-  &__text {
-    font-size: 3vw;
-  }
-
   &__center {
     text-align: center;
+  }
+
+  &__text {
+    font-size: 7vw;
   }
 }
 
@@ -75,9 +76,34 @@
 }
 
 @media screen and (min-width: 600px) {
+  .game_page {
+    margin-top: 15%;
+    column-gap: 1.2vw;
+  
+    &__grid {
+      border-radius: 10x;
+    }
 
+    &__text {
+      font-size: 6vw;
+    }
+  }
 }
 
 @media screen and (min-width: 992px) {
+  .game_page {
+    height: 80%;
+    width: 40%;
+    margin-top: 5%;
   
+    &__grid {
+      height: min(60vh,60vw);
+      width: min(60vh,60vw);
+      border-radius: 15px;
+    }
+  
+    &__text {
+      font-size: 2.75vw;
+    }
+  }
 }

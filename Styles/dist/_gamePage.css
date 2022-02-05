@@ -1,23 +1,24 @@
 .game_page {
   display: none;
-  grid-template-rows: 1fr 4fr;
+  grid-template-rows: repeat(2, 1fr);
   grid-template-columns: repeat(7, 1fr);
   grid-template-areas: "timer-symbol timer timer winLose winLose flags-remaining flag-symbol" "grid-box grid-box grid-box grid-box grid-box grid-box grid-box";
-  height: 80%;
-  width: 40%;
+  height: 70%;
+  width: 90%;
   margin: 0 auto;
-  margin-top: 5%;
+  margin-top: 20%;
   align-items: center;
   column-gap: 1vw;
 }
 .game_page__grid {
   margin: 0 auto;
+  height: 100%;
   background-color: #DED4ED;
-  height: 60vh;
-  width: 60vh;
+  height: min(85vh, 85vw);
+  width: min(85vh, 85vw);
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
   border: 0.6vw solid #DED4ED;
   border-radius: 5px;
 }
@@ -31,11 +32,11 @@
 .game_page__right {
   text-align: right;
 }
-.game_page__text {
-  font-size: 3vw;
-}
 .game_page__center {
   text-align: center;
+}
+.game_page__text {
+  font-size: 7vw;
 }
 
 #game_page__timer_symbol {
@@ -55,4 +56,32 @@
 }
 #game_page__winLose {
   grid-area: winLose;
+}
+
+@media screen and (min-width: 600px) {
+  .game_page {
+    margin-top: 15%;
+    column-gap: 1.2vw;
+  }
+  .game_page__grid {
+    border-radius: 10x;
+  }
+  .game_page__text {
+    font-size: 6vw;
+  }
+}
+@media screen and (min-width: 992px) {
+  .game_page {
+    height: 80%;
+    width: 40%;
+    margin-top: 5%;
+  }
+  .game_page__grid {
+    height: min(60vh, 60vw);
+    width: min(60vh, 60vw);
+    border-radius: 15px;
+  }
+  .game_page__text {
+    font-size: 2.75vw;
+  }
 }
