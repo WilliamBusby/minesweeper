@@ -6,7 +6,7 @@ const winLoseText = document.getElementById("game_page__winLose");
 const endPageFlagsLeft = document.getElementById("end_page__flags_remaining");
 const gamePageTimer = document.getElementById("game_page__timer");
 const endPageTimer = document.getElementById("end_page__timer");
-let totalSeconds = 0;
+
 
 import Mines from "./Mines.mjs";
 import Board from "./Board.mjs";
@@ -17,80 +17,73 @@ export default class Game {
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
     this.checkMines(this._gameboard,this._mines);
     this._flagsLeft = flagsRemaining.innerHTML = numberOfMines;
-    this.addLeftClickListener(gameboard,this._gameboard,rows,columns);
-    this.addRightClickListener(gameboard,this._gameboard);
-    this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
-    this._timer = setInterval(this.addToTimer,1000, useTimer);
+    this.addClickListeners(gameboard,this._gameboard,rows,columns);
+    this._timer = setInterval(this.addToTimer, 1000, useTimer);
     this._squaresWithoutMines = (rows * columns) - numberOfMines + 1;
     this._isGameOver = false;
+    this._totalSeconds = 0;
   }
 
-  addLeftClickListener(gameboard,generatedGameboard,rows,columns) {
-    gameboard.addEventListener("click", (event) => {
-      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(!clickedSquare.isFlagged && !clickedSquare.isShowing && !this._isGameOver) {
-        click.style.backgroundColor = "#3D3B3C";
-        click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-        clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines");
-        if(clickedSquare.hasMine) {
-          this.gameLose(click);
-        } else if(clickedSquare.numberOfMinesSurrounding === 0) {
-          this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "click");
-          this._squaresWithoutMines--;
-        } else {
-          click.innerHTML = clickedSquare.numberOfMinesSurrounding;
-          this._squaresWithoutMines--;
-        }
-        clickedSquare.isShowing = true;
-        if(this._squaresWithoutMines === 0) {
-          this.gameWin();
-        }
-      }
-    })
-  }
-
-  addMiddleClickListener(gameboard,generatedGameboard,rows,cols) {
-    gameboard.addEventListener("auxclick", (event) => {
-      event.preventDefault();
-      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(event.button === 1 && !this._isGameOver) {
-        let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
-        if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"click");
-        }
-      // } else if(event.button === 2) {
-      //   alert("hi")
-      // } else if(event.button === 0) {
-      //   alert("1")
-      }
-    })
-  }
-
-  addRightClickListener = async (gameboard,generatedGameboard) => {
-    gameboard.addEventListener("contextmenu", (event) => {
+  addClickListeners(gameboard,generatedGameboard,rows,cols) {
+    // Middle and right click
+    gameboard.addEventListener("mouseup", (event) => {
       event.preventDefault();
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(!this._isGameOver) {
-        if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
-          click.innerHTML = `<i class="fas fa-flag"></i>`;
-          click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-          this._flagsLeft--;
-          flagsRemaining.innerHTML = this._flagsLeft;
-          clickedSquare.isFlagged = true;
-          if(this.checkGameWin(generatedGameboard)) this.gameWin();
-  
-        } else if(clickedSquare.isFlagged) {
-          click.innerHTML = "";
-          this._flagsLeft++;
-          flagsRemaining.innerHTML = this._flagsLeft;
-          clickedSquare.isFlagged = false;
-        } else if(clickedSquare.isShowing) {
-          alert("You can't flag a square that is already showing!")
-        } else {
-          alert("You've run out of flags to place!");
+        if(event.button === 1) {
+          this.middleClickEvent(generatedGameboard, clickedSquare, rows, cols);
+        } else if(event.button === 2) {
+          this.rightClickEvent(generatedGameboard, clickedSquare, click);
         }
       }
     })
+    // Removes the context menu so it doesn't interfere with the game
+    gameboard.addEventListener("contextmenu", (event) => {
+      event.preventDefault();
+    })
+    // Left click
+    gameboard.addEventListener("click", (event) => {
+      let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
+      if(!this._isGameOver) this.leftClickEvent(generatedGameboard, clickedSquare, rows, cols, click);
+    })
+  }
+
+  middleClickEvent(generatedGameboard, clickedSquare, rows, cols) {
+    let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
+    if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
+      this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"click");
+    }
+  }
+
+  leftClickEvent(generatedGameboard, clickedSquare, rows, columns, click) {
+    if(!clickedSquare.isFlagged && !clickedSquare.isShowing) {
+      click.style.backgroundColor = "#3D3B3C";
+      click.style.fontSize = `${click.offsetWidth/1.75}px`;
+      clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines");
+      if(clickedSquare.hasMine) {
+        this.gameLose(click);
+      } else if(clickedSquare.numberOfMinesSurrounding === 0) {
+        this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "click");
+        this._squaresWithoutMines--;
+      } else {
+        click.innerHTML = clickedSquare.numberOfMinesSurrounding;
+        this._squaresWithoutMines--;
+      }
+      clickedSquare.isShowing = true;
+      if(this._squaresWithoutMines === 0) this.gameWin();
+    }
+  }
+
+  rightClickEvent(generatedGameboard, clickedSquare, click) {
+    if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
+      this.placeFlagOnSquare(generatedGameboard, clickedSquare, click)
+    } else if(clickedSquare.isFlagged) {
+      this.removeFlagFromSquare(click, clickedSquare);
+    } else if(clickedSquare.isShowing) {
+      alert("You can't flag a square that is already showing!")
+    } else {
+      alert("You've run out of flags to place!");
+    }
   }
 
   checkMines(gameboard,mines) {
@@ -182,8 +175,8 @@ export default class Game {
   }
 
   addToTimer = async (useTimer) => {
-    ++totalSeconds;
-    gamePageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
+    ++this._totalSeconds;
+    gamePageTimer.innerHTML = this.changeTimer(useTimer, this._totalSeconds);
   }
 
   gameToEndStyle() {
@@ -207,5 +200,21 @@ export default class Game {
     this._isGameOver = true;
     setTimeout(this.gameToEndStyle,3000);
     clearInterval(this._timer);
+  }
+
+  placeFlagOnSquare(generatedGameboard, clickedSquare, click) {
+    click.innerHTML = `<i class="fas fa-flag"></i>`;
+    click.style.fontSize = `${click.offsetWidth/1.75}px`;
+    this._flagsLeft--;
+    flagsRemaining.innerHTML = this._flagsLeft;
+    clickedSquare.isFlagged = true;
+    if(this.checkGameWin(generatedGameboard)) this.gameWin();
+  }
+
+  removeFlagFromSquare(click, clickedSquare) {
+    click.innerHTML = "";
+    this._flagsLeft++;
+    flagsRemaining.innerHTML = this._flagsLeft;
+    clickedSquare.isFlagged = false;
   }
 }
