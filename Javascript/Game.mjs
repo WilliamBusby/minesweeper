@@ -16,34 +16,35 @@ export default class Game {
     this._gameboard = new Board(rows, columns).generatedGameboard;
     this._mines = new Mines(rows,columns,numberOfMines).mineLocations;
     this.checkMines(this._gameboard,this._mines);
-    this._flagsLeft = numberOfMines;
-    flagsRemaining.innerHTML = this._flagsLeft;
-    this._useTimer = useTimer,
-    this.addLeftClickListener(gameboard,this._gameboard,rows,columns, this._useTimer);
-    this.addRightClickListener(gameboard,this._gameboard, this._useTimer);
+    this._flagsLeft = flagsRemaining.innerHTML = numberOfMines;
+    this.addLeftClickListener(gameboard,this._gameboard,rows,columns);
+    this.addRightClickListener(gameboard,this._gameboard);
     this.addMiddleClickListener(gameboard,this._gameboard,rows,columns);
-    this.timer = setInterval(this.addToTimer,1000, this._useTimer);
+    this._timer = setInterval(this.addToTimer,1000, useTimer);
+    this._squaresWithoutMines = (rows * columns) - numberOfMines + 1;
+    this._isGameOver = false;
   }
 
-  addLeftClickListener(gameboard,generatedGameboard,rows,columns, useTimer) {
+  addLeftClickListener(gameboard,generatedGameboard,rows,columns) {
     gameboard.addEventListener("click", (event) => {
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(!clickedSquare.isFlagged) {
-        event.target.style.backgroundColor = "#3D3B3C";
-        event.target.style.fontSize = `${event.target.offsetWidth/1.75}px`;
+      if(!clickedSquare.isFlagged && !clickedSquare.isShowing && !this._isGameOver) {
+        click.style.backgroundColor = "#3D3B3C";
+        click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
         clickedSquare.numberOfMinesSurrounding = this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "mines");
         if(clickedSquare.hasMine) {
-          event.target.innerHTML = `<i class="fas fa-bomb"></i>`;
-          winLoseText.innerHTML = "You lose!";
-          endPageFlagsLeft.innerHTML = this._flagsLeft;
-          setTimeout(this.gameToEndStyle,3000, useTimer);
-          clearInterval(this.timer);
+          this.gameLose(click);
         } else if(clickedSquare.numberOfMinesSurrounding === 0) {
           this.calculateClickSurrounding(generatedGameboard, clickedSquare, rows, columns, "click");
+          this._squaresWithoutMines--;
         } else {
-          event.target.innerHTML = clickedSquare.numberOfMinesSurrounding;
+          click.innerHTML = clickedSquare.numberOfMinesSurrounding;
+          this._squaresWithoutMines--;
         }
         clickedSquare.isShowing = true;
+        if(this._squaresWithoutMines === 0) {
+          this.gameWin();
+        }
       }
     })
   }
@@ -52,41 +53,42 @@ export default class Game {
     gameboard.addEventListener("auxclick", (event) => {
       event.preventDefault();
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(event.button === 1) {
+      if(event.button === 1 && !this._isGameOver) {
         let flagsAround = this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"flags")
         if(clickedSquare.isShowing && clickedSquare.numberOfMinesSurrounding === flagsAround) {
-          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"middleClick");
+          this.calculateClickSurrounding(generatedGameboard,clickedSquare,rows,cols,"click");
         }
+      // } else if(event.button === 2) {
+      //   alert("hi")
+      // } else if(event.button === 0) {
+      //   alert("1")
       }
     })
   }
 
-  addRightClickListener = async (gameboard,generatedGameboard, useTimer) => {
+  addRightClickListener = async (gameboard,generatedGameboard) => {
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
-      if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
-        click.innerHTML = `<i class="fas fa-flag"></i>`;
-        click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
-        this._flagsLeft--;
-        flagsRemaining.innerHTML = this._flagsLeft;
-        clickedSquare.isFlagged = true;
-        let gameWin = this.checkGameWin(generatedGameboard);
-        if(gameWin) {
-          winLoseText.innerHTML = "You win!";
-          endPageFlagsLeft.innerHTML = this._flagsLeft;
-          setTimeout(this.gameToEndStyle,3000, useTimer);
-          clearInterval(this.timer);
+      if(!this._isGameOver) {
+        if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
+          click.innerHTML = `<i class="fas fa-flag"></i>`;
+          click.style.fontSize = `${event.target.offsetWidth/1.75}px`;
+          this._flagsLeft--;
+          flagsRemaining.innerHTML = this._flagsLeft;
+          clickedSquare.isFlagged = true;
+          if(this.checkGameWin(generatedGameboard)) this.gameWin();
+  
+        } else if(clickedSquare.isFlagged) {
+          click.innerHTML = "";
+          this._flagsLeft++;
+          flagsRemaining.innerHTML = this._flagsLeft;
+          clickedSquare.isFlagged = false;
+        } else if(clickedSquare.isShowing) {
+          alert("You can't flag a square that is already showing!")
+        } else {
+          alert("You've run out of flags to place!");
         }
-      } else if(clickedSquare.isFlagged && !clickedSquare.isShowing) {
-        click.innerHTML = "";
-        this._flagsLeft++;
-        flagsRemaining.innerHTML = this._flagsLeft;
-        clickedSquare.isFlagged = false;
-      } else if(clickedSquare.isShowing) {
-        alert("You can't flag a square that is already showing!")
-      } else {
-        alert("You've run out of flags to place!");
       }
     })
   }
@@ -117,7 +119,7 @@ export default class Game {
       clickedValue = this.getObjectFromGameboard(generatedGameboard, clickedSquare.parentElement.parentElement.id);
       click = clickedSquare.parentElement.parentElement;
     } 
-    return [clickedValue, click]
+    return [clickedValue, click];
   }
 
   calculateClickSurrounding(generatedGameboard, targetSquare, xMax, yMax, inputType) {
@@ -143,11 +145,9 @@ export default class Game {
       if(!checkBounds) {
         if(inputType === "flags") {
           if(generatedGameboard[surroundingX][surroundingY].isFlagged) outputValue++;
-        } else if(inputType === "middleClick") {
-          document.getElementById(`${surroundingX}_${surroundingY}`).click();
         } else if(inputType=== "mines") {
           if(generatedGameboard[surroundingX][surroundingY].hasMine) outputValue++;
-        } else if(!targetSquare.isShowing && inputType === "click") {
+        } else if(inputType === "click") {
           document.getElementById(`${surroundingX}_${surroundingY}`).click();
         }
       }
@@ -162,9 +162,7 @@ export default class Game {
       const yMineLocation = this._mines[i][1];
       const gameboardMineObject = generatedGameboard[xMineLocation][yMineLocation];
 
-      if(!gameboardMineObject.isFlagged) {
-        gameWin = false;
-      }
+      if(!gameboardMineObject.isFlagged) gameWin = false;
     }
     return gameWin;
   }
@@ -183,16 +181,31 @@ export default class Game {
     return output;
   }
 
-  gameToEndStyle = async (useTimer) => {
-    gamePage.style.display = "none";
-    endPage.style.display = "grid";
-    gameboard.innerHTML = "";
-    winLoseText.innerHTML = "";
-    endPageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
-  }
-
   addToTimer = async (useTimer) => {
     ++totalSeconds;
     gamePageTimer.innerHTML = this.changeTimer(useTimer, totalSeconds);
+  }
+
+  gameToEndStyle() {
+    gamePage.style.display = "none";
+    endPage.style.display = "grid";
+    endPageTimer.innerHTML = gamePageTimer.innerHTML;
+  }
+
+  gameWin() {
+    winLoseText.innerHTML = "You win!";
+    endPageFlagsLeft.innerHTML = this._flagsLeft;
+    this._isGameOver = true;
+    setTimeout(this.gameToEndStyle,3000);
+    clearInterval(this._timer);
+  }
+
+  gameLose(click) {
+    click.innerHTML = `<i class="fas fa-bomb"></i>`;
+    winLoseText.innerHTML = "You lose!";
+    endPageFlagsLeft.innerHTML = this._flagsLeft;
+    this._isGameOver = true;
+    setTimeout(this.gameToEndStyle,3000);
+    clearInterval(this._timer);
   }
 }
