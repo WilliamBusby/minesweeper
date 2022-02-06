@@ -25,6 +25,7 @@ export default class Game {
   }
 
   addClickListeners(gameboard,generatedGameboard,rows,cols) {
+    // Middle and right click
     gameboard.addEventListener("mouseup", (event) => {
       event.preventDefault();
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
@@ -36,11 +37,11 @@ export default class Game {
         }
       }
     })
-
+    // Removes the context menu so it doesn't interfere with the game
     gameboard.addEventListener("contextmenu", (event) => {
       event.preventDefault();
     })
-
+    // Left click
     gameboard.addEventListener("click", (event) => {
       let [clickedSquare, click] = this.checkSquareClickedInfo(event.target,generatedGameboard);
       if(!this._isGameOver) this.leftClickEvent(generatedGameboard, clickedSquare, rows, cols, click);
@@ -69,18 +70,14 @@ export default class Game {
         this._squaresWithoutMines--;
       }
       clickedSquare.isShowing = true;
-      if(this._squaresWithoutMines === 0) {
-        this.gameWin();
-      }
+      if(this._squaresWithoutMines === 0) this.gameWin();
     }
   }
 
   rightClickEvent(generatedGameboard, clickedSquare, click) {
     if(this._flagsLeft > 0 && !clickedSquare.isFlagged && !clickedSquare.isShowing) {
       this.placeFlagOnSquare(generatedGameboard, clickedSquare, click)
-
     } else if(clickedSquare.isFlagged) {
-
       this.removeFlagFromSquare(click, clickedSquare);
     } else if(clickedSquare.isShowing) {
       alert("You can't flag a square that is already showing!")
@@ -220,5 +217,4 @@ export default class Game {
     flagsRemaining.innerHTML = this._flagsLeft;
     clickedSquare.isFlagged = false;
   }
-
 }
