@@ -156,7 +156,7 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, 1fr);
     grid-template-areas: "head howToPlay" "difficulty howToPlay" "timer howToPlay" "startButton howToPlay" ". howToPlay";
-    width: 60%;
+    width: 65%;
     height: 70%;
     text-align: left;
     column-gap: 5vw;
