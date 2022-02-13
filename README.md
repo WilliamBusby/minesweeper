@@ -24,7 +24,8 @@ The game contains several basic functions, including:
 
 ## Known issues
 
-There is currently an issue with grids that have unequal numbers of rows and columns.
+- There is currently an issue with grids that have unequal numbers of rows and columns.
+- There is currently an issue with call stack size errors on large grids with small numbers of mines.
 
 ## Contact me
 
