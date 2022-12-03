@@ -7,7 +7,6 @@ const endPageFlagsLeft = document.getElementById("end_page__flags_remaining");
 const gamePageTimer = document.getElementById("game_page__timer");
 const endPageTimer = document.getElementById("end_page__timer");
 
-
 import Mines from "./Mines.mjs";
 import Board from "./Board.mjs";
 
